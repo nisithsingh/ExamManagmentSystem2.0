@@ -7,6 +7,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import com.nus.iss.ems.enums.SectionType;
+import java.util.List;
+import javax.persistence.ManyToMany;
 
 /**
  *
@@ -23,6 +25,17 @@ public class ExamSection extends AbstractEntity implements Serializable  {
     
     @ManyToOne
     private ExamPaper examPaper;
+    
+    @ManyToMany(mappedBy = "examSections")
+    private List<Question> questions;
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
 
     public ExamPaper getExamPaper() {
         return examPaper;

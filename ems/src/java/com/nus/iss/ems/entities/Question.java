@@ -31,7 +31,18 @@ public class Question extends AbstractEntity implements Serializable  {
     
     @ManyToMany(mappedBy = "questions")
     private List<SubjectTag> subjectTags;
+    
+    @ManyToMany
+    private List<ExamSection> examSections;
 
+    public List<ExamSection> getExamSections() {
+        return examSections;
+    }
+
+    public void setExamSections(List<ExamSection> examSections) {
+        this.examSections = examSections;
+    }
+    
     public List<SubjectTag> getSubjectTags() {
         return subjectTags;
     }
