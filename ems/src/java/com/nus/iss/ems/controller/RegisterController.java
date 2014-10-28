@@ -68,7 +68,7 @@ public class RegisterController {
                 context.addMessage("registerSuccess", error);
             }
         }
-        return "index";
+        return "login";
     }
 
 }

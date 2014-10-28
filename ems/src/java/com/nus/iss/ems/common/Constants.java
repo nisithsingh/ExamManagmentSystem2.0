@@ -11,4 +11,5 @@ package com.nus.iss.ems.common;
  */
 public interface Constants {
     public static final String SUCCESS="SUCCESS";
+    public static final String DEFAULT_PASSWORD="password";
 }

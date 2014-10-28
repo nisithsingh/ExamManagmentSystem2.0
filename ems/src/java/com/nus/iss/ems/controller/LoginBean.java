@@ -1,9 +1,8 @@
-
 package com.nus.iss.ems.controller;
 
-import java.awt.event.ActionEvent;
+import com.nus.iss.ems.common.Constants;
 import java.io.Serializable;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -13,11 +12,12 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author Milan
  */
-@SessionScoped
+@RequestScoped
 @Named
 public class LoginBean implements Serializable {
-    
- 
+
+    private static final long serialVersionUID = 1L;
+
     private String username;
     private String password;
 
@@ -37,19 +37,36 @@ public class LoginBean implements Serializable {
         this.password = password;
     }
 
-    
-
     public String login() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        
+        //new user
+        if(this.password.equalsIgnoreCase(Constants.DEFAULT_PASSWORD))
+        {
+            return "/register?faces-redirect=true";
+        }
+        
         try {
-            request.login(this.username, this.password);
+            if (request.getRemoteUser() == null) {
+                request.login(this.username, this.password);
+            }
+
         } catch (Exception e) {
 
-            context.addMessage(null, new FacesMessage("Login failed."));
+            context.addMessage(null, new FacesMessage(e.getMessage()));
             return "login";
         }
-        return "student/protectedstudent";
+        if (request.isUserInRole("student")) {
+            return "/student/index?faces-redirect=true";
+        } else if (request.isUserInRole("lecturer")) {
+            return "lecturer/index";
+        } else if (request.isUserInRole("admin")) {
+            return "admin/index";
+        } else {
+            return "login";
+        }
+
     }
 
     public void logout() {
@@ -61,5 +78,21 @@ public class LoginBean implements Serializable {
 
             context.addMessage(null, new FacesMessage("Logout failed."));
         }
+    }
+
+    public String checkAuthentication() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        if (request.getUserPrincipal() != null) {
+            if (request.isUserInRole("student")) {
+                return "/student/index?faces-redirect=true";
+            } else if (request.isUserInRole("lecturer")) {
+                return "/lecturer/index?faces-redirect=true";
+            } else if (request.isUserInRole("admin")) {
+                return "/admin/index?faces-redirect=true";
+            }
+
+        }
+        return null;
     }
 }

@@ -36,7 +36,7 @@ public class RegisterFacade {
         if(students.size()>0)
         {
             Student s=students.get(0);
-            if(s.getPassword()==null || s.getPassword().equals(""))
+            if(s.getPassword()!=null && s.getPassword().equalsIgnoreCase(Constants.DEFAULT_PASSWORD))
             {
                 s.setPassword(password);
                 msg=Constants.SUCCESS;
@@ -58,7 +58,7 @@ public class RegisterFacade {
         if(lecturers.size()>0)
         {
             Lecturer l=lecturers.get(0);
-            if(l.getPassword()==null || l.getPassword().equals(""))
+            if(l.getPassword()!=null && l.getPassword().equalsIgnoreCase(Constants.DEFAULT_PASSWORD))
             {
                 l.setPassword(password);
                 msg="SUCCESS";
