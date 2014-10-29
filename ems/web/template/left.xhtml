@@ -2,9 +2,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
+    <h:head></h:head>
     <h:body>
+        <ui:composition>
+            <h:form>
         <p:dock position="bottom">
             <p:menuitem rendered="#{loginBean.username == null}" value="#{msg['login.title']}" icon="/resources/images/home.png" url="#"/>
             <p:menuitem rendered="#{request.isUserInRole('admin')}" value="#{msg['upload.title']}" icon="/resources/images/upload.png" url="#"/>
@@ -13,6 +17,8 @@
             <p:menuitem rendered="#{request.isUserInRole('student')}" value="#{msg['examSession.title']}" icon="/resources/images/startExam.png" url="#"/>
             <p:menuitem rendered="#{request.isUserInRole('lecturer') or request.isUserInRole('admin')}" value="#{msg['examiner.title']}" icon="/resources/images/examiner.png" url="#"/>
         </p:dock>
+            </h:form>
+        </ui:composition>
     </h:body>
 </html>
 

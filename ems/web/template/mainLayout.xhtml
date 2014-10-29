@@ -7,23 +7,24 @@
     <h:head>
 
 
-        <p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"  />
+<!--        <p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"  />-->
         <title>#{msg['header.title']}</title>
 
 
-        <p:dialog modal="true" widgetVar="statusDialog" showHeader="false" 
+<!--        <p:dialog modal="true" widgetVar="statusDialog" showHeader="false" 
                   draggable="false" closable="false" resizable="false" 
                   visible="false" position="center" maximizable="false" minimizable="false" >
             <p:graphicImage value="/resources/images/ajax-loader.gif" />
-        </p:dialog>
+        </p:dialog>-->
     </h:head>
-
-    <h:body onload="statusDialog.hide();">
-        <h:form>
+<!--onload="statusDialog.hide();"-->
+    <h:body >
+       
             <p:layout fullPage="true">
 
                 <p:layoutUnit position="north" size="100">
                     <ui:insert name="header" >
+
                         <ui:include src="/template/header.xhtml" />
                     </ui:insert>
                 </p:layoutUnit>   
@@ -48,8 +49,8 @@
             </p:layout>
 
 
-        </h:form>
 
+       
 
 
     </h:body>
