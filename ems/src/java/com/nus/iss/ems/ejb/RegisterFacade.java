@@ -25,7 +25,7 @@ public class RegisterFacade {
     @PersistenceContext
     private EntityManager em;
 
-    @Resource(name = "jdbc/emsAuth")
+    @Resource(name = "jdbc/ems")
     DataSource datasource;
 
     //find user id in student,lecturer table and set password in it
@@ -39,6 +39,7 @@ public class RegisterFacade {
                     
             connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/ems", prop);
             
+            //not working table not found exception
            //  connection = datasource.getConnection();
             PreparedStatement stmt = connection.prepareStatement("update USERS set PASSWORD=? where USERID=? and PASSWORD='password'");
             stmt.setString(1, password);

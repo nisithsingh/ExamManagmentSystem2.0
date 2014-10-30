@@ -20,26 +20,19 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Lecturer.findById", query = "SELECT l FROM Lecturer l WHERE l.id = :id"),
     @NamedQuery(name = "Lecturer.findByLecturerId", query = "SELECT l FROM Lecturer l WHERE l.lecturerId = :lecturerId"),
     @NamedQuery(name = "Lecturer.findByLecturerName", query = "SELECT l FROM Lecturer l WHERE l.lecturerName = :lecturerName"),
-    @NamedQuery(name = "Lecturer.findByPassword", query = "SELECT l FROM Lecturer l WHERE l.password = :password")})
+    })
 
 public class Lecturer extends AbstractEntity implements Serializable {
 
     private String lecturerId;
     private String lecturerName;
-    private String password;
-
+ 
     @ManyToMany
     private List<Module> modules;
     @OneToMany(mappedBy = "createdBy")
     private List<Question> questions;
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+   
 
     public List<Question> getQuestions() {
         return questions;
