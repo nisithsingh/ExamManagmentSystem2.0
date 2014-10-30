@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import com.nus.iss.ems.enums.QuestionType;
 import java.util.List;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -34,7 +35,20 @@ public class Question extends AbstractEntity implements Serializable  {
     
     @ManyToMany
     private List<ExamSection> examSections;
+    
+    @OneToMany(mappedBy = "question")
+    private List<QuestionOption> questionOptions;
 
+    public List<QuestionOption> getQuestionOptions() {
+        return questionOptions;
+    }
+
+    public void setQuestionOptions(List<QuestionOption> questionOptions) {
+        this.questionOptions = questionOptions;
+    }
+
+    
+    
     public List<ExamSection> getExamSections() {
         return examSections;
     }
