@@ -69,7 +69,7 @@ public class LoginBean implements Serializable {
 
     }
 
-    public void logout() {
+    public String logout() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         try {
@@ -77,22 +77,10 @@ public class LoginBean implements Serializable {
         } catch (Exception e) {
 
             context.addMessage(null, new FacesMessage("Logout failed."));
+            return null;
         }
+        return "/login";
     }
 
-    public String checkAuthentication() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        if (request.getUserPrincipal() != null) {
-            if (request.isUserInRole("student")) {
-                return "/student/index?faces-redirect=true";
-            } else if (request.isUserInRole("lecturer")) {
-                return "/lecturer/index?faces-redirect=true";
-            } else if (request.isUserInRole("admin")) {
-                return "/admin/index?faces-redirect=true";
-            }
-
-        }
-        return null;
-    }
+    
 }

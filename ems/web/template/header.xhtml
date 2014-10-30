@@ -9,18 +9,22 @@
     <h:head></h:head>
     <h:body>
         <ui:composition>
-        <h:form>
-            <h:outputStylesheet library="css" name="style.css"  />
-            <p:outputLabel value="#{msg['header.title']}" styleClass="header" />
+            <h:form>
+                <h:outputStylesheet library="css" name="style.css"  />
+                
+                <p:outputLabel value="#{msg['header.title']}" styleClass="header" />
+                
 
-            <p:messages id="registerSuccess" showDetail="true" autoUpdate="true" closable="true" />
+                <!--            <p:messages id="registerSuccess" showDetail="true" autoUpdate="true" closable="true" />-->
 
-            <h:commandLink action="#{registerController.goToRegisterPage()}" value="Register" immediate="true" />
+<!--            <h:commandLink action="#{registerController.goToRegisterPage()}" value="Register" immediate="true" />-->
 
-            <h:commandButton action="#{registerController.goToRegisterPage()}" value="Register" immediate="true" >
-                <f:ajax render=":content"/>
-            </h:commandButton>
-        </h:form>
+                <p:commandButton rendered="#{request.getUserPrincipal()==null}" action="#{registerController.goToRegisterPage()}" value="Register"  >
+                    <f:ajax render=":content"/>
+                </p:commandButton>
+                
+                <p:commandButton value="#{msg['logout']}" rendered="#{request.userPrincipal!=null}" action="#{loginBean.logout()}" ajax="false"/>
+            </h:form>
         </ui:composition>
 
 

@@ -10,7 +10,7 @@
         <ui:composition>
             <h:form>
         <p:dock position="bottom">
-            <p:menuitem rendered="#{loginBean.username == null}" value="#{msg['login.title']}" icon="/resources/images/home.png" url="#"/>
+            <p:menuitem rendered="#{request.getUserPrincipal()==null}" value="#{msg['login.title']}" icon="/resources/images/home.png" url="#"/>
             <p:menuitem rendered="#{request.isUserInRole('admin')}" value="#{msg['upload.title']}" icon="/resources/images/upload.png" url="#"/>
             <p:menuitem rendered="#{request.isUserInRole('lecturer')}" value="#{msg['question.title']}" icon="/resources/images/question.png" url="#"/>
             <p:menuitem rendered="#{request.isUserInRole('lecturer')}" value="#{msg['examPaper.title']}" icon="/resources/images/exampaper.png" url="#"/>
