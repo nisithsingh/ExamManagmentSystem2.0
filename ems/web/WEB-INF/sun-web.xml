@@ -5,6 +5,14 @@
     <role-name>student</role-name>
     <group-name>student</group-name>
   </security-role-mapping>
+  <security-role-mapping>
+    <role-name>admin</role-name>
+    <group-name>admin</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
+    <role-name>lecturer</role-name>
+    <group-name>lecturer</group-name>
+  </security-role-mapping>
   <class-loader delegate="true"/>
   <jsp-config>
     <property name="keepgenerated" value="true">

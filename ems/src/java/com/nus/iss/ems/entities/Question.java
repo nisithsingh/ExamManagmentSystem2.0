@@ -38,7 +38,20 @@ public class Question extends AbstractEntity implements Serializable  {
     
     @OneToMany(mappedBy = "question")
     private List<QuestionOption> questionOptions;
+    
+    @OneToMany(mappedBy = "question")
+    private List<StudentAnswer> studentAnswers;
 
+    public List<StudentAnswer> getStudentAnswers() {
+        return studentAnswers;
+    }
+
+    public void setStudentAnswers(List<StudentAnswer> studentAnswers) {
+        this.studentAnswers = studentAnswers;
+    }
+
+    
+    
     public List<QuestionOption> getQuestionOptions() {
         return questionOptions;
     }

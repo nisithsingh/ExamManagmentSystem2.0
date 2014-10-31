@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.nus.iss.ems.entities;
 
 import java.io.Serializable;
@@ -16,32 +12,25 @@ import javax.persistence.ManyToOne;
  * @author Milan
  */
 @Entity
-public class QuestionOption extends AbstractEntity implements Serializable{
-   
-    private String optionValue;
+public class StudentAnswer extends AbstractEntity implements Serializable{
+    
+    private String answer;
     
     @ManyToOne
     private Question question;
     
-    @ManyToMany
-    private List<StudentAnswer> studentAnswers;
+    @ManyToMany(mappedBy = "studentAnswers")
+    private List<QuestionOption> optionsSelected;
+    
+    @ManyToOne 
+    private ExamSession examSession;
 
-    public List<StudentAnswer> getStudentAnswers() {
-        return studentAnswers;
+    public String getAnswer() {
+        return answer;
     }
 
-    public void setStudentAnswers(List<StudentAnswer> studentAnswers) {
-        this.studentAnswers = studentAnswers;
-    }
-    
-    
-    
-    public String getValue() {
-        return optionValue;
-    }
-
-    public void setValue(String value) {
-        this.optionValue = value;
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     public Question getQuestion() {
@@ -51,6 +40,24 @@ public class QuestionOption extends AbstractEntity implements Serializable{
     public void setQuestion(Question question) {
         this.question = question;
     }
+
+    public List<QuestionOption> getOptionsSelected() {
+        return optionsSelected;
+    }
+
+    public void setOptionsSelected(List<QuestionOption> optionsSelected) {
+        this.optionsSelected = optionsSelected;
+    }
+
+    public ExamSession getExamSession() {
+        return examSession;
+    }
+
+    public void setExamSession(ExamSession examSession) {
+        this.examSession = examSession;
+    }
+    
+    
     
     
     
@@ -64,10 +71,10 @@ public class QuestionOption extends AbstractEntity implements Serializable{
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof QuestionOption)) {
+        if (!(object instanceof StudentAnswer)) {
             return false;
         }
-        QuestionOption other = (QuestionOption) object;
+        StudentAnswer other = (StudentAnswer) object;
         if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.getId().equals(other.getId()))) {
             return false;
         }
@@ -76,6 +83,7 @@ public class QuestionOption extends AbstractEntity implements Serializable{
 
     @Override
     public String toString() {
-        return "nus.iss.ems.entities.QuestionOption[ id=" + getId() + " ]";
+        return "nus.iss.ems.entities.StudentAnswer[ id=" + getId() + " ]";
     }
+    
 }
