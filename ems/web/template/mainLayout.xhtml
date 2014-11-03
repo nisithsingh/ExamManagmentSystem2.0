@@ -7,50 +7,52 @@
     <h:head>
 
 
-<!--        <p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"  />-->
+        <!--        <p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"  />-->
         <title>#{msg['header.title']}</title>
 
 
-<!--        <p:dialog modal="true" widgetVar="statusDialog" showHeader="false" 
-                  draggable="false" closable="false" resizable="false" 
-                  visible="false" position="center" maximizable="false" minimizable="false" >
-            <p:graphicImage value="/resources/images/ajax-loader.gif" />
-        </p:dialog>-->
+        <!--        <p:dialog modal="true" widgetVar="statusDialog" showHeader="false" 
+                          draggable="false" closable="false" resizable="false" 
+                          visible="false" position="center" maximizable="false" minimizable="false" >
+                    <p:graphicImage value="/resources/images/ajax-loader.gif" />
+                </p:dialog>-->
     </h:head>
-<!--onload="statusDialog.hide();"-->
+    <!--onload="statusDialog.hide();"-->
     <h:body >
-       
-            <p:layout fullPage="true">
 
-                <p:layoutUnit position="north" size="100">
-                    <ui:insert name="header" >
+        <p:layout fullPage="true">
 
-                        <ui:include src="/template/header.xhtml" />
-                    </ui:insert>
-                </p:layoutUnit>   
+            <p:layoutUnit position="north" size="100">
+                <ui:insert name="header" >
 
-                <p:layoutUnit position="west" resizable="true">
+                    <ui:include src="/template/header.xhtml" />
+                </ui:insert>
+            </p:layoutUnit>   
 
-                </p:layoutUnit>       
-                <p:layoutUnit position="center" resizable="true" size="500"  >
-                    <ui:insert name="content" >
-                        <ui:include src="/template/content.xhtml" />
-                    </ui:insert>
-                </p:layoutUnit>
+             <p:layoutUnit position="center" resizable="true" size="500"  >
+                <ui:insert name="content" >
+                    <ui:include src="/template/content.xhtml" />
+                </ui:insert>
+            </p:layoutUnit>
+            
+            <p:layoutUnit position="west" resizable="true">
+                <ui:insert name="left" >
+                    <ui:include src="/template/left.xhtml" />
+                </ui:insert>
+            </p:layoutUnit>       
+           
 
-                <p:layoutUnit position="south" >
-                    <ui:insert name="left" >
-                        <ui:include src="/template/left.xhtml" />
-                    </ui:insert>
-                    <ui:insert name="footer" >
-                        <ui:include src="/template/footer.xhtml" />
-                    </ui:insert>
-                </p:layoutUnit>
-            </p:layout>
+            <p:layoutUnit position="south" >
+
+                <ui:insert name="footer" >
+                    <ui:include src="/template/footer.xhtml" />
+                </ui:insert>
+            </p:layoutUnit>
+        </p:layout>
 
 
 
-       
+
 
 
     </h:body>

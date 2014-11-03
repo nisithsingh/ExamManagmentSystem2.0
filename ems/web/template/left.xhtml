@@ -3,20 +3,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head></h:head>
     <h:body>
         <ui:composition>
             <h:form>
-        <p:dock position="bottom">
-            <p:menuitem rendered="#{request.getUserPrincipal()==null}" value="#{msg['login.title']}" icon="/resources/images/home.png" url="#"/>
-            <p:menuitem rendered="#{request.isUserInRole('admin')}" value="#{msg['upload.title']}" icon="/resources/images/upload.png" url="#"/>
-            <p:menuitem rendered="#{request.isUserInRole('lecturer')}" value="#{msg['question.title']}" icon="/resources/images/question.png" url="#"/>
-            <p:menuitem rendered="#{request.isUserInRole('lecturer')}" value="#{msg['examPaper.title']}" icon="/resources/images/exampaper.png" url="#"/>
-            <p:menuitem rendered="#{request.isUserInRole('student')}" value="#{msg['examSession.title']}" icon="/resources/images/startExam.png" url="#"/>
-            <p:menuitem rendered="#{request.isUserInRole('lecturer') or request.isUserInRole('admin')}" value="#{msg['examiner.title']}" icon="/resources/images/examiner.png" url="#"/>
-        </p:dock>
+                <p:menu>
+
+
+
+                    <p:menuitem rendered="#{request.getUserPrincipal()==null}" value="#{msg['login.title']}" icon="/resources/images/home.png" url="login.xhtml"/>
+                    <p:menuitem rendered="#{request.getUserPrincipal()==null}" value="#{msg['register']}" icon="/resources/images/home.png" url="register.xhtml"/>
+                    <p:menuitem rendered="#{request.isUserInRole('admin')}" value="#{msg['upload.title']}" icon="/resources/images/upload.png" url="#"/>
+                    <p:menuitem rendered="#{request.isUserInRole('lecturer')}" value="#{msg['question.title']}" icon="/resources/images/question.png" url="#"/>
+                    <p:menuitem rendered="#{request.isUserInRole('lecturer')}" value="#{msg['examPaper.title']}" icon="/resources/images/exampaper.png" url="#"/>
+                    <p:menuitem rendered="#{request.isUserInRole('student')}" value="#{msg['examSession.title']}" icon="/resources/images/startExam.png" url="#"/>
+                    <p:menuitem rendered="#{request.isUserInRole('lecturer') or request.isUserInRole('admin')}" value="#{msg['examiner.title']}" icon="/resources/images/examiner.png" url="#"/>
+                </p:menu>
             </h:form>
         </ui:composition>
     </h:body>

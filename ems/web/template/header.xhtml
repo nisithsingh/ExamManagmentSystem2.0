@@ -12,16 +12,15 @@
             <h:form>
                 <h:outputStylesheet library="css" name="style.css"  />
                 
+                <a href="/ems">
                 <p:outputLabel value="#{msg['header.title']}" styleClass="header" />
-                
+                </a>
 
                 <!--            <p:messages id="registerSuccess" showDetail="true" autoUpdate="true" closable="true" />-->
 
 <!--            <h:commandLink action="#{registerController.goToRegisterPage()}" value="Register" immediate="true" />-->
 
-                <p:commandButton rendered="#{request.getUserPrincipal()==null}" action="#{registerController.goToRegisterPage()}" value="Register"  >
-                    <f:ajax render=":content"/>
-                </p:commandButton>
+               
                 
                 <p:commandButton value="#{msg['logout']}" rendered="#{request.userPrincipal!=null}" action="#{loginBean.logout()}" ajax="false"/>
             </h:form>

@@ -9,8 +9,19 @@
 
         <ui:composition template="template/mainLayout.xhtml">
             <ui:define name="content">
-                <h:form >
-                    <p:panelGrid columns="2">
+                <h:form id="form">
+                    
+<!--                    <h:panelGroup layout="block" id="content">
+                    <h:panelGroup layout="block" styleClass="content" rendered="#{menuBacking.login}">
+                        <h2>login</h2>
+                    </h:panelGroup>   
+                    <h:panelGroup layout="block" styleClass="content" rendered="#{menuBacking.register}">
+                        <ui:include src="register.xhtml"/>
+                    </h:panelGroup>   
+                    
+                </h:panelGroup>-->
+                    
+                                     <p:panelGrid columns="2">
                         <p:outputLabel for="usernameInput" value="#{msg['user.id']}:" />
 
                         <p:inputText id="usernameInput" value="#{loginBean.username}" 
@@ -26,7 +37,8 @@
                                          ajax="false" />
 
                     </p:panelGrid>
-                    <p:messages/>
+                    <p:messages/>   
+
                 </h:form>   			
             </ui:define>
         </ui:composition>
