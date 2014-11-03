@@ -4,17 +4,32 @@
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:body>
 
         <ui:composition template="../template/mainLayout.xhtml">
             <ui:define name="content">
+                <h2>Question Management</h2>
                 <h:form >
-                    
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <p:outputLabel for="module" value="Module " />
+                        <p:selectOneMenu id="module" value="#{questionController.moduleSelected}" style="width:150px">
+                            <p:ajax listener="#{dropdownView.onCountryChange}" update="city" />
+                            <f:selectItem itemLabel="Select Country" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{dropdownView.modules}" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="city" value="City: " />
+                        <p:selectOneMenu id="city" value="#{dropdownView.city}" style="width:150px">
+                            <f:selectItem itemLabel="Select City" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{dropdownView.cities}" />
+                        </p:selectOneMenu>
+                    </h:panelGrid>
                     <p:messages/>
                 </h:form>   			
             </ui:define>
-          
+
         </ui:composition>
 
     </h:body>
