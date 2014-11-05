@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      >
+    <h:body>
+
+    <ui:composition template="../template/mainLayout.xhtml">
+            <ui:define name="content">
+
+                <h:form >
+                    <a href="/ems/faces/invigilating/index.xhtml">
+                        back
+                    </a>
+                    <h:panelGrid columns="3" cellpadding="50" style="width:100%" >
+                        <p:panel id="basic" header="${invigilatingController.detailPaper.module.moduleName}"  style="text-align:center">
+
+                            <p:panelGrid columns="2" layout="grid">  
+                                <h:outputText
+                                    value="duration:" />
+                                <h:outputText
+                                    value="${invigilatingController.detailPaper.duration}" />
+                                <h:outputText
+                                    value="CreateDate:" />
+                                <h:outputText
+                                    value="${invigilatingController.detailPaper.createDate}" />    
+                                <h:outputText
+                                    value="ModuID:" />
+                                <h:outputText
+                                    value="${invigilatingController.inv.module.id}" />
+                                <h:outputText
+                                    value="NumberOfQuestion:" />
+                                <h:outputText
+                                    value="${invigilatingController.numberOfQuestion}" />
+                                <h:outputText
+                                    value="NumberOfStudent:" />
+                                <h:outputText
+                                    value="${invigilatingController.inv.module.students.size()}" />
+                                <h:outputText
+                                    value="amountOfSession:" />
+                                <h:outputText
+                                    value="${invigilatingController.detailPaper.sections.size()}" />
+                            </p:panelGrid>
+                        </p:panel>
+                        <div>
+                            <p:chart type="pie" model="#{invigilatingController.inv.pie}" style="width:500px;height:200px" />
+                        </div>
+
+                    </h:panelGrid>
+                    <p:dataTable  var="stu" value="#{invigilatingController.inv.students}" >
+                        <p:column headerText="Id">
+                            <h:outputText value="#{stu.id}" />
+                        </p:column>
+                        <p:column headerText="studentName">
+                            <h:outputText value="#{stu.studentName}" />
+                        </p:column>
+                        <p:column headerText="studentId">
+                            <h:outputText value="#{stu.studentId}" />
+                        </p:column>
+                        <p:column headerText="session" colspan="10">
+                            <p:dataTable  var="se" value="#{stu.examSessions}">
+                                <p:column headerText="startTime">
+                                    <h:outputText value="#{se.date}" />
+                                </p:column>
+                                <p:column headerText="anserNumber">
+                                    <h:outputText value="#{se.studentAnswers.size()}"/>
+                                </p:column>
+                                <p:column headerText="Paper" >
+                                    <p:dataTable  var="sect" value="#{se.examPaper.sections}">
+                                        <p:column headerText="sectionName">
+                                            <h:outputText value="#{sect.sectionName}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:column>
+                            </p:dataTable>
+                        </p:column>
+
+
+
+                    </p:dataTable>
+                </h:form>
+                
+            </ui:define>
+        </ui:composition>
+    </h:body>
+
+</html>
+
+
+

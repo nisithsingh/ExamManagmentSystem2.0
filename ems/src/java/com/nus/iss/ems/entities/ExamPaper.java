@@ -6,12 +6,18 @@ import java.sql.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
  *
  * @author Milan
  */
+
+@NamedQueries({
+    @NamedQuery(name = "ExamPaper.getProgressedPaper", query = "SELECT e FROM ExamPaper e where e.startDate = CURRENT_DATE ")
+    })
 @Entity
 public class ExamPaper extends AbstractEntity implements Serializable  {
     

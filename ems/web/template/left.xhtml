@@ -20,7 +20,7 @@
                     <p:menuitem rendered="#{request.isUserInRole('lecturer')}" value="#{msg['question.title']}" icon="/resources/images/question.png" url="#"/>
                     <p:menuitem rendered="#{request.isUserInRole('lecturer')}" value="#{msg['examPaper.title']}" icon="/resources/images/exampaper.png" url="#"/>
                     <p:menuitem rendered="#{request.isUserInRole('student')}" value="#{msg['examSession.title']}" icon="/resources/images/startExam.png" url="#"/>
-                    <p:menuitem rendered="#{request.isUserInRole('lecturer') or request.isUserInRole('admin')}" value="#{msg['examiner.title']}" icon="/resources/images/examiner.png" url="#"/>
+                    <p:menuitem rendered="#{request.isUserInRole('lecturer') or request.isUserInRole('admin')}" value="#{msg['examiner.title']}" icon="/resources/images/examiner.png" url="/faces/invigilating/index.xhtml"/>
                 </p:menu>
             </h:form>
         </ui:composition>
