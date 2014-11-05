@@ -20,8 +20,13 @@ public class QuestionService {
 
     Map<String, String> errors = null;
 
-    public Map<String, String> validateQuestion(Module module, List<SubjectTag> subjectTags, QuestionType questionType, String questionText, List<String> options) {
+    public Map<String, String> validateQuestion(Module module, List<SubjectTag> subjectTags, QuestionType questionType, String questionText, List<String> options,int mark) {
         errors = new HashMap<String, String>();
+        
+        if (mark == 0 ) {
+            errors.put("markInputText", "Mark should be greater than 0");
+        }
+        
         if (module == null ) {
             errors.put("moduleDropDown", "Module Code is Required");
         }

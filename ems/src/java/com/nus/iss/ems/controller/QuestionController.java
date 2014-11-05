@@ -5,8 +5,8 @@
  */
 package com.nus.iss.ems.controller;
 
-import com.nus.iss.ems.common.Constants;
 import com.nus.iss.ems.ejb.ModuleFacade;
+import com.nus.iss.ems.ejb.QuestionFacade;
 import com.nus.iss.ems.ejb.SubjectTagFacade;
 import com.nus.iss.ems.entities.Module;
 import com.nus.iss.ems.entities.Question;
@@ -32,9 +32,11 @@ import javax.inject.Named;
 @Named
 public class QuestionController implements Serializable {
 
-   
     @EJB
     private ModuleFacade moduleFacade;
+
+    @EJB
+    private QuestionFacade questionFacade;
 
     @EJB
     private SubjectTagFacade subjectTagFacade;
@@ -51,6 +53,28 @@ public class QuestionController implements Serializable {
     private List<String> options = new ArrayList<String>();
 
     private String option;
+
+    int mark;
+    
+    private List<Question> questions;
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+    
+    
+
+    public int getMark() {
+        return mark;
+    }
+
+    public void setMark(int mark) {
+        this.mark = mark;
+    }
 
     public String getOption() {
         return option;
@@ -155,8 +179,8 @@ public class QuestionController implements Serializable {
         System.out.println("Question Type :" + questionType.getLabel());
         System.out.println("Question Text:" + questionText);
         System.out.println("Options Size :" + options.size());
-        
-        Map<String, String> errors = new QuestionService().validateQuestion(moduleSelected, subjectTags,questionType,questionText,options);
+
+        Map<String, String> errors = new QuestionService().validateQuestion(moduleSelected, subjectTags, questionType, questionText, options,mark);
         FacesContext context = FacesContext.getCurrentInstance();
         if (!errors.isEmpty()) {
 
@@ -164,12 +188,17 @@ public class QuestionController implements Serializable {
                 FacesMessage error = new FacesMessage(errors.get(key));
                 context.addMessage(key, error);
             }
-        }
-        else {
+        } else {
             String lecturerID = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
-            
-            
-            
+            Question question = questionFacade.createQuestion(lecturerID, moduleSelected, subjectTags, questionType, questionText, options, mark);
+            if (question == null) {
+                FacesMessage error = new FacesMessage("Error Occured while saving Question");
+                context.addMessage(null, error);
+            } else {
+                FacesMessage error = new FacesMessage("Question Created Successfully");
+                context.addMessage(null, error);
+            }
+
 //            String msg = registerFacade.registerUser(userID, password);
 //
 //            if (!msg.equals(Constants.SUCCESS)) {
@@ -183,7 +212,7 @@ public class QuestionController implements Serializable {
 //                context.addMessage("registerSuccess", error);
 //            }
         }
-        
+
     }
 
 //     public void onQuestionTypeChanged()

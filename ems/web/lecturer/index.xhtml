@@ -19,7 +19,16 @@
 
                 <h2>Question Management</h2>
                 <h:form id="form">
-                    <p:messages/>
+                     <p:messages/>
+                    <p:commandButton value="Create Question" type="button" onclick="PF('createQuestionDialog').show();" /> 
+                    
+                    <p:dataTable id="" value="" var="" >
+                        
+                    </p:dataTable>
+                    
+                    <p:dialog header="Create Question" widgetVar="createQuestionDialog" minHeight="40" height="500" width="500">
+                        
+                        <p:messages/>
                     <h:panelGrid columns="2" cellpadding="5">
                         <p:outputLabel for="moduleDropDown" value="Select Module :" />
                         <p:selectOneMenu id="moduleDropDown" value="#{questionController.moduleSelected.moduleName}" style="width:150px" required="true" >
@@ -53,6 +62,12 @@
                             </h:panelGroup>
 
                             <h:panelGroup>
+                                <p:outputLabel for="markInputText" value="Mark"/>
+                                <p:inputText id="markInputText" value="#{questionController.mark}" required="true" requiredMessage="Mark is required"/>
+                                <p:message for="markInputText" />
+                            </h:panelGroup>
+
+                            <h:panelGroup>
                                 <p:commandButton  value="Add" actionListener="#{questionController.addOption(questionController.option)}" process="@this,optionInputText" update="questionOptionDataTable,optionInputText"   />
 
                                 <p:inputText id="optionInputText" value="#{questionController.option}" required="true"/>
@@ -71,9 +86,11 @@
                         <p:outputLabel value="Essay" rendered="#{questionController.questionType.label=='Essay'}"/>
                         <p:outputLabel value="Multi Part" rendered="#{questionController.questionType.label=='Multi Part'}"/>
 
-                        <p:commandButton value="Create Question" action="#{questionController.createQuestion}" process="@this,moduleDropDown,subjectTagDropDown,questionTypeDropDown,questionText" update="form"/>
+                        <p:commandButton value="Create Question" action="#{questionController.createQuestion}" process="@this,moduleDropDown,subjectTagDropDown,questionTypeDropDown,questionText,markInputText" update="form"/>
                     </h:panelGroup>
 
+                    </p:dialog>
+                    
 
 
 
