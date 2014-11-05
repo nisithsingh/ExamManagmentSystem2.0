@@ -10,6 +10,15 @@ import org.primefaces.model.chart.PieChartModel;
  */
 
 public class InvigilatingView {
+    private int index;
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
     private List<Student> students;
     private PieChartModel pie;
     private ExamPaper paper;

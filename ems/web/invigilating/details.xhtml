@@ -9,7 +9,7 @@
       >
     <h:body>
 
-    <ui:composition template="../template/mainLayout.xhtml">
+        <ui:composition template="../template/mainLayout.xhtml">
             <ui:define name="content">
 
                 <h:form >
@@ -17,21 +17,25 @@
                         back
                     </a>
                     <h:panelGrid columns="3" cellpadding="50" style="width:100%" >
-                        <p:panel id="basic" header="${invigilatingController.detailPaper.module.moduleName}"  style="text-align:center">
+                        <p:panel id="basic" header="${invigilatingController.invigilatingView.module.moduleName}"  style="text-align:center">
 
                             <p:panelGrid columns="2" layout="grid">  
                                 <h:outputText
                                     value="duration:" />
                                 <h:outputText
-                                    value="${invigilatingController.detailPaper.duration}" />
+                                    value="${invigilatingController.detailExamPaper.duration}" />
                                 <h:outputText
                                     value="CreateDate:" />
                                 <h:outputText
-                                    value="${invigilatingController.detailPaper.createDate}" />    
+                                    value="${invigilatingController.detailExamPaper.createDate}" />   
+                                <h:outputText
+                                    value="StartDate:" />
+                                <h:outputText
+                                    value="${invigilatingController.detailExamPaper.startDate}" />  
                                 <h:outputText
                                     value="ModuID:" />
                                 <h:outputText
-                                    value="${invigilatingController.inv.module.id}" />
+                                    value="${invigilatingController.invigilatingView.module.id}" />
                                 <h:outputText
                                     value="NumberOfQuestion:" />
                                 <h:outputText
@@ -39,19 +43,19 @@
                                 <h:outputText
                                     value="NumberOfStudent:" />
                                 <h:outputText
-                                    value="${invigilatingController.inv.module.students.size()}" />
+                                    value="${invigilatingController.invigilatingView.module.students.size()}" />
                                 <h:outputText
-                                    value="amountOfSession:" />
+                                    value="NumberOfSession:" />
                                 <h:outputText
-                                    value="${invigilatingController.detailPaper.sections.size()}" />
+                                    value="${invigilatingController.detailExamPaper.sections.size()}" />
                             </p:panelGrid>
                         </p:panel>
                         <div>
-                            <p:chart type="pie" model="#{invigilatingController.inv.pie}" style="width:500px;height:200px" />
+                            <p:chart type="pie" model="#{invigilatingController.invigilatingView.pie}" style="width:500px;height:200px" />
                         </div>
 
                     </h:panelGrid>
-                    <p:dataTable  var="stu" value="#{invigilatingController.inv.students}" >
+                    <p:dataTable  var="stu" value="#{invigilatingController.invigilatingView.students}" >
                         <p:column headerText="Id">
                             <h:outputText value="#{stu.id}" />
                         </p:column>
@@ -78,12 +82,9 @@
                                 </p:column>
                             </p:dataTable>
                         </p:column>
-
-
-
                     </p:dataTable>
                 </h:form>
-                
+
             </ui:define>
         </ui:composition>
     </h:body>

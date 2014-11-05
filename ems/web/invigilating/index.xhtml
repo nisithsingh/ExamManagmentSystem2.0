@@ -13,16 +13,14 @@
             <ui:define name="content">
                 <h:form >
 
-                    <p:dataGrid var="inV" value="#{invigilatingController.invigateSet}" columns="2" layout="grid" rowIndexVar="rowIndex"
+                    <p:dataGrid var="inV" value="#{invigilatingController.invigilationSet}" columns="2" layout="grid" rowIndexVar="rowIndex"
                                 id="pagers"
                                 >
                         <f:facet name="header">
-                          #{msg['invigilatingController.examPaper.module']}
+                            #{msg['invigilatingController.examPaper.module']}
                         </f:facet>
-                        
+
                         <p:panel id="basic" header="${inV.module.moduleName}"  style="text-align:center">
-                           <h:outputText value="row index: #{rowIndex} " />
-                        
 
                             <h:panelGrid columns="2" cellpadding="1" style="width:100%" >
 
@@ -38,16 +36,19 @@
                                     <h:outputText
                                         value="CreateDate:" />
                                     <h:outputText
-                                        value="${inV.paper.createDate}" />    
+                                        value="${inV.paper.createDate}" />
                                     <h:outputText
-                                        value="ModuID:" />
+                                        value="startDate" />
                                     <h:outputText
-                                        value="${inV.module.id}" />
+                                        value="${inV.paper.startDate}" /> 
+ 
 
                                 </p:panelGrid>
                                 <div>
                                     <p:chart type="pie" model="#{inV.pie}" style="width:500px;height:200px" />
                                 </div>
+                                <p:commandButton value="${msg['invigilating.examPaper.detail']}"  action="${invigilatingController.detail(inV.index)}"
+                                                 update="@form"  />
                             </h:panelGrid>
                         </p:panel>
 
@@ -55,17 +56,8 @@
                     </p:dataGrid>
 
 
-                    <p:panelGrid columns="2" layout="grid" style="width:500px;height:200px">  
-                    <p:commandButton value="${msg['invigilating.examPaper.submit']}"  action="${invigilatingController.loadAllCurrentPapers()}"
+                    <p:commandButton value="${msg['invigilating.examPaper.submit']}"  action="${invigilatingController.loadAllCurrentExamPapers()}"
                                      update="@form"  />
-                    <p:panel id="basic" >
-                    <p:outputLabel value="index"></p:outputLabel>
-                    <p:inputText  value="#{invigilatingController.index}" ></p:inputText>
-                    <br/>
-                    <p:commandButton value="${msg['invigilating.examPaper.detail']}"  action="${invigilatingController.togoDetail()}"
-                                     update="@form"  />
-                    </p:panel>
-                    </p:panelGrid>
                 </h:form>   			
             </ui:define>
 

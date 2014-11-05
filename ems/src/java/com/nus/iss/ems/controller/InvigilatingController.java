@@ -24,17 +24,16 @@ public class InvigilatingController implements Serializable {
     @EJB
     ExamPaperFacade epf;
     private List<ExamPaper> examPapers;
-    private ExamPaper detailPaper;
+    private ExamPaper detailExamPaper;
     private int numberOfQuestion;
-    private List<PieChartModel> pieModel1;
-    private List<InvigilatingView> invigateSet  = new ArrayList<InvigilatingView>();
-    private InvigilatingView inv;
-    public List<InvigilatingView> getInvigateSet() {
-        return invigateSet;
+    private List<InvigilatingView> invigilationSet  = new ArrayList<InvigilatingView>();
+    private InvigilatingView invigilatingView;
+    public List<InvigilatingView> getInvigilationSet() {
+        return invigilationSet;
     }
 
-    public void setInvigateSet(List<InvigilatingView> invigateSet) {
-        this.invigateSet = invigateSet;
+    public void setInvigilationSet(List<InvigilatingView> invigateSet) {
+        this.invigilationSet = invigateSet;
     }
     public int getNumberOfQuestion() {
         return numberOfQuestion;
@@ -44,23 +43,13 @@ public class InvigilatingController implements Serializable {
         this.numberOfQuestion = numberOfQuestion;
     }
 
-    public ExamPaper getDetailPaper() {
-        return detailPaper;
+    public ExamPaper getDetailExamPaper() {
+        return detailExamPaper;
     }
 
-    public void setDetailPaper(ExamPaper detailPaper) {
-        this.detailPaper = detailPaper;
+    public void setDetailExamPaper(ExamPaper detailPaper) {
+        this.detailExamPaper = detailPaper;
     }
-    int index;
-
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
     public List<ExamPaper> getExamPapers() {
         return examPapers;
     }
@@ -69,45 +58,46 @@ public class InvigilatingController implements Serializable {
         this.examPapers = examPapers;
     }
 
-    public void loadAllCurrentPapers() {
-        invigateSet.clear();
+    public void loadAllCurrentExamPapers() {
+        invigilationSet.clear();
+        int index = 0;
         examPapers = epf.getCurrentPaper();
         for (ExamPaper e : examPapers) {
             int stuN = e.getModule().getStudents().size();
             int sessionN = e.getSections().size();
             PieChartModel pieModel1 = new PieChartModel();
-            createPieModel1(pieModel1,stuN,sessionN);
+            createPieModel(pieModel1,stuN,sessionN);
             InvigilatingView inV = new InvigilatingView();
             inV.setModule(e.getModule());
             inV.setPaper(e);
             inV.setPie(pieModel1);
             inV.setStudents(e.getModule().getStudents());
-            invigateSet.add(inV);
+            inV.setIndex(index);
+            invigilationSet.add(inV);
+            index = index +1;
         }
-        index = 1;
         System.out.println("loadedPages");
     }
 
-    private void createPieModel1(PieChartModel pieModel1,int numbserStudent,int numberOfSession) {
+    private void createPieModel(PieChartModel pieModel1,int numbserStudent,int numberOfSession) {
         int nonSigned = numbserStudent - numberOfSession;
-        pieModel1.set("signed "+numberOfSession, numberOfSession);
-        pieModel1.set(" without "+nonSigned, nonSigned);
+        pieModel1.set("signed in: "+numberOfSession+" person", numberOfSession);
+        pieModel1.set(" no signed in: "+nonSigned+ " person", nonSigned);
         pieModel1.setLegendPosition("w");
     }
-
-
-    public InvigilatingView getInv() {
-        return inv;
+    
+    public InvigilatingView getInvigilatingView() {
+        return invigilatingView;
     }
 
-    public void setInv(InvigilatingView inv) {
-        this.inv = inv;
+    public void setInvigilatingView(InvigilatingView inv) {
+        this.invigilatingView = inv;
     }
-    public String togoDetail() {
+    public String detail(int i) {
+        invigilatingView = invigilationSet.get(i);
+        detailExamPaper = invigilatingView.getPaper();
+        List<ExamSection> secs = detailExamPaper.getSections();
         numberOfQuestion = 0;
-        inv = invigateSet.get(index);
-        detailPaper = inv.getPaper();
-        List<ExamSection> secs = detailPaper.getSections();
         for (ExamSection sec : secs) {
             numberOfQuestion = numberOfQuestion + sec.getQuestions().size();
         }
