@@ -1,6 +1,7 @@
 package com.nus.iss.ems.controller;
 
 import com.nus.iss.ems.common.Constants;
+import com.nus.iss.ems.enums.QuestionType;
 import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -81,6 +82,8 @@ public class LoginBean implements Serializable {
         }
         return "/login";
     }
+    
+   
 
     
 }

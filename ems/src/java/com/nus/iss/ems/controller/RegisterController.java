@@ -57,6 +57,8 @@ public class RegisterController {
 
             return "register";
         } else {
+            
+            
             String msg = registerFacade.registerUser(userID, password);
 
             if (!msg.equals(Constants.SUCCESS)) {

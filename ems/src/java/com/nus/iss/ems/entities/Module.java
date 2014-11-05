@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
@@ -13,6 +15,11 @@ import javax.persistence.OneToMany;
  * @author Milan
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "Module.findAll", query = "SELECT m FROM Module m"),
+    @NamedQuery(name = "Module.findById", query = "SELECT m FROM Module m WHERE m.id = :id"),
+    @NamedQuery(name = "Module.findByModuleCode", query = "SELECT m FROM Module m WHERE m.moduleCode = :moduleCode"),
+    @NamedQuery(name = "Module.findByModuleName", query = "SELECT m FROM Module m WHERE m.moduleName = :moduleName")})
 public class Module extends AbstractEntity implements Serializable {
 
     @Column(unique = true)
@@ -93,7 +100,7 @@ public class Module extends AbstractEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "nus.iss.ems.entities.Module[ id=" + getId() + " ]";
+        return getModuleName();
     }
     
 }

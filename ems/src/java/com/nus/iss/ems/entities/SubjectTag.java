@@ -5,12 +5,18 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Milan
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "SubjectTag.findAll", query = "SELECT s FROM SubjectTag s"),
+    @NamedQuery(name = "SubjectTag.findById", query = "SELECT s FROM SubjectTag s WHERE s.id = :id"),
+    @NamedQuery(name = "SubjectTag.findByTagName", query = "SELECT s FROM SubjectTag s WHERE s.tagName = :tagName")})
 public class SubjectTag extends AbstractEntity implements Serializable {
    
     private String tagName;
@@ -56,7 +62,7 @@ public class SubjectTag extends AbstractEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "nus.iss.ems.entities.SubjectTag[ id=" + getId() + " ]";
+        return getTagName();
     }
     
 }

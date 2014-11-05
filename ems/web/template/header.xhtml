@@ -20,7 +20,7 @@
 
 <!--            <h:commandLink action="#{registerController.goToRegisterPage()}" value="Register" immediate="true" />-->
 
-               
+                <p:outputLabel value="#{request.userPrincipal}" rendered="#{request.userPrincipal!=null}" />
                 
                 <p:commandButton value="#{msg['logout']}" rendered="#{request.userPrincipal!=null}" action="#{loginBean.logout()}" ajax="false"/>
             </h:form>
