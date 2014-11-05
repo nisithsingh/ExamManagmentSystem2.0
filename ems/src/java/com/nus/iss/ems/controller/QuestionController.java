@@ -55,7 +55,7 @@ public class QuestionController implements Serializable {
     private String option;
 
     int mark;
-    
+
     private List<Question> questions;
 
     public List<Question> getQuestions() {
@@ -65,8 +65,6 @@ public class QuestionController implements Serializable {
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
-    
-    
 
     public int getMark() {
         return mark;
@@ -180,7 +178,7 @@ public class QuestionController implements Serializable {
         System.out.println("Question Text:" + questionText);
         System.out.println("Options Size :" + options.size());
 
-        Map<String, String> errors = new QuestionService().validateQuestion(moduleSelected, subjectTags, questionType, questionText, options,mark);
+        Map<String, String> errors = new QuestionService().validateQuestion(moduleSelected, subjectTags, questionType, questionText, options, mark);
         FacesContext context = FacesContext.getCurrentInstance();
         if (!errors.isEmpty()) {
 
@@ -197,6 +195,7 @@ public class QuestionController implements Serializable {
             } else {
                 FacesMessage error = new FacesMessage("Question Created Successfully");
                 context.addMessage(null, error);
+                reset();
             }
 
 //            String msg = registerFacade.registerUser(userID, password);
@@ -213,6 +212,15 @@ public class QuestionController implements Serializable {
 //            }
         }
 
+    }
+
+    public void reset() {
+        moduleSelected = null;
+        subjectTags = null;
+        questionType = questionType.MCQ_OneCorrect;
+        questionText = "";
+        options = new ArrayList<String>();
+        mark = 0;
     }
 
 //     public void onQuestionTypeChanged()
