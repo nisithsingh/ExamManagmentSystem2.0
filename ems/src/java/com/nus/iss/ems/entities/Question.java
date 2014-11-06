@@ -44,6 +44,16 @@ public class Question extends AbstractEntity implements Serializable  {
     
     @OneToMany(mappedBy = "question")
     private List<StudentAnswer> studentAnswers;
+    
+    private Integer depreciated=0;
+
+    public Integer getDepreciated() {
+        return depreciated;
+    }
+
+    public void setDepreciated(Integer depreciated) {
+        this.depreciated = depreciated;
+    }
 
     public Module getModule() {
         return module;

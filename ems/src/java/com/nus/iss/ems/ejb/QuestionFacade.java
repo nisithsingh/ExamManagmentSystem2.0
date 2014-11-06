@@ -52,10 +52,11 @@ public class QuestionFacade {
                 option.setQuestion(question);
                 option.setValue(o);
                 em.persist(option);
-                
+               
                 
             }
-
+            
+             em.flush();
             return question;
         }
 
@@ -65,7 +66,7 @@ public class QuestionFacade {
     public List<Question> retrieveQuestions(Module module) {
        
         module=em.find(Module.class, module.getId());
-        em.flush();
+       
         return module.getQuestions();
     }
 }

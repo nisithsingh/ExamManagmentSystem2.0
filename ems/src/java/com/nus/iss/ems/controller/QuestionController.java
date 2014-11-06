@@ -154,6 +154,8 @@ public class QuestionController implements Serializable {
     @PostConstruct
     public void init() {
         retrieveModules();
+        if(moduleSelected!=null)
+            retrieveQuestions();
         questionSelected = new Question();
 
     }
@@ -213,23 +215,12 @@ public class QuestionController implements Serializable {
                 FacesMessage error = new FacesMessage("Error Occured while saving Question");
                 context.addMessage(null, error);
             } else {
+                questions.add(question);
                 FacesMessage error = new FacesMessage("Question Created Successfully");
                 context.addMessage(null, error);
                 reset();
             }
 
-//            String msg = registerFacade.registerUser(userID, password);
-//
-//            if (!msg.equals(Constants.SUCCESS)) {
-//                FacesMessage error = new FacesMessage(msg);
-//                context.addMessage(null, error);
-//                
-//            } else {
-//                
-//                
-//                 FacesMessage error = new FacesMessage("Registered Successfully");
-//                context.addMessage("registerSuccess", error);
-//            }
         }
 
     }
