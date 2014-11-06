@@ -43,6 +43,7 @@ public class QuestionFacade {
             question.setQuestionType(questionType);
             question.setVersion(0);
             question.setModule(module);
+            question.setSubjectTags(subjectTags);
             em.persist(question);
 
             //save options
@@ -63,6 +64,7 @@ public class QuestionFacade {
 
     public List<Question> retrieveQuestions(Module module) {
        
+        module=em.find(Module.class, module.getId());
         em.flush();
         return module.getQuestions();
     }

@@ -35,4 +35,8 @@ public class ModuleFacade {
         }
     }
 
+    public Module findModule(Long id) {
+         return em.find(Module.class, id);
+    }
+
 }

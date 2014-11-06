@@ -33,7 +33,7 @@ public class Question extends AbstractEntity implements Serializable  {
     @Enumerated(EnumType.ORDINAL)
     private QuestionType questionType;
     
-    @ManyToMany(mappedBy = "questions")
+    @ManyToMany
     private List<SubjectTag> subjectTags;
     
     @ManyToMany

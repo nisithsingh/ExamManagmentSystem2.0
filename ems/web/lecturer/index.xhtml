@@ -53,12 +53,19 @@
                         <p:messages/>
                         <h:panelGrid columns="2" cellpadding="5">
                             <p:outputLabel for="moduleDropDown" value="Select Module :" />
-                            <p:selectOneMenu id="moduleDropDown" value="#{questionController.moduleSelected.moduleName}" style="width:150px" required="true" >
-                                <f:selectItems value="#{questionController.modules}" />
+                            <p:selectOneMenu id="moduleDropDown" value="#{questionController.moduleSelected}" style="width:150px" required="true" >
+                                <f:selectItems value="#{questionController.modules}" var="module" itemValue="#{module}" 
+                                               itemLabel="#{module.moduleName}"/>
+                                 <f:converter converterId="moduleConverter" />
                             </p:selectOneMenu>
                             <p:outputLabel for="subjectTagDropDown" value="Select Subject :" />
                             <p:selectManyMenu id="subjectTagDropDown" value="#{questionController.subjectTagsSelected}" filter="true" filterMatchMode="contains" showCheckbox="true" required="true">
-                                <f:selectItems value="#{questionController.retrieveSubjectTags()}" />
+                                
+                                
+                                <f:selectItems value="#{questionController.retrieveSubjectTags()}" 
+                                               var="subjectItem" itemValue="#{subjectItem}" 
+                               itemLabel="#{subjectItem.tagName}"></f:selectItems>
+                                <f:converter converterId="subjectTagConverter" />
                             </p:selectManyMenu>
 
                             <p:outputLabel for="questionTypeDropDown" value="Select Question Type :" />

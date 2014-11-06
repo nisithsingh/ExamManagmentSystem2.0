@@ -20,12 +20,16 @@ import javax.persistence.TypedQuery;
 @Stateless
 public class SubjectTagFacade {
    
-     @PersistenceContext
+    @PersistenceContext
     private EntityManager em;
     
     public List<SubjectTag> retireveAllSubjectTags()
     {
         TypedQuery<SubjectTag> query= em.createNamedQuery("SubjectTag.findAll",SubjectTag.class);
         return query.getResultList();
+    }
+
+    public SubjectTag findSubjectTag(Long id) {
+       return em.find(SubjectTag.class, id);
     }
 }

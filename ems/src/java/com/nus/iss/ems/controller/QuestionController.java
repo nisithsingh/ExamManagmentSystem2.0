@@ -58,7 +58,7 @@ public class QuestionController implements Serializable {
     int mark;
 
     private List<Question> questions;
-    
+
     private Question questionSelected;
 
     public Question getQuestionSelected() {
@@ -68,8 +68,6 @@ public class QuestionController implements Serializable {
     public void setQuestionSelected(Question questionSelected) {
         this.questionSelected = questionSelected;
     }
-    
-    
 
     public List<Question> getQuestions() {
         return questions;
@@ -153,14 +151,12 @@ public class QuestionController implements Serializable {
         this.modules = modules;
     }
 
-    
     @PostConstruct
-    public void init()
-    {
-        questionSelected=new Question();
-        
+    public void init() {
+        questionSelected = new Question();
+
     }
-    
+
     public List<Module> retrieveModules() {
         String lecturerID = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
 
@@ -168,7 +164,7 @@ public class QuestionController implements Serializable {
         if (modules != null && modules.size() > 0) {
             moduleSelected = modules.get(0);
            // retrieveQuestions();
-            
+
         }
         return modules;
     }
@@ -211,7 +207,7 @@ public class QuestionController implements Serializable {
             }
         } else {
             String lecturerID = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
-            Question question = questionFacade.createQuestion(lecturerID, moduleSelected, subjectTags, questionType, questionText, options, mark);
+            Question question = questionFacade.createQuestion(lecturerID, moduleSelected, subjectTagsSelected, questionType, questionText, options, mark);
             if (question == null) {
                 FacesMessage error = new FacesMessage("Error Occured while saving Question");
                 context.addMessage(null, error);
@@ -244,17 +240,24 @@ public class QuestionController implements Serializable {
         questionText = "";
         options = new ArrayList<String>();
         mark = 0;
-        questionSelected=new Question();
+        questionSelected = new Question();
     }
 
     public List<Question> retrieveQuestions() {
         questions = questionFacade.retrieveQuestions(moduleSelected);
         return questions;
     }
-    
-    public void modifyQuestion(Question question)
-    {
-        
+
+    public void modifyQuestion(Question question) {
+
+    }
+
+    public SubjectTag getSubject(java.lang.Long id) {
+        return subjectTagFacade.findSubjectTag(id);
+    }
+
+    public Module getModule(java.lang.Long id) {
+        return moduleFacade.findModule(id);
     }
 
 //     public void onQuestionTypeChanged()

@@ -21,7 +21,7 @@ public class SubjectTag extends AbstractEntity implements Serializable {
    
     private String tagName;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "subjectTags")
     private List<Question> questions;
     
     public String getTagName() {
