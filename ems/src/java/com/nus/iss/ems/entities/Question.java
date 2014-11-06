@@ -9,13 +9,27 @@ import javax.persistence.ManyToOne;
 import com.nus.iss.ems.enums.QuestionType;
 import java.util.List;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Milan
  */
 @Entity
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Question.findAll", query = "SELECT q FROM Question q"),
+    @NamedQuery(name = "Question.findById", query = "SELECT q FROM Question q WHERE q.id = :id"),
+    @NamedQuery(name = "Question.findByCreatedOn", query = "SELECT q FROM Question q WHERE q.createdOn = :createdOn"),
+    @NamedQuery(name = "Question.findByMark", query = "SELECT q FROM Question q WHERE q.mark = :mark"),
+    @NamedQuery(name = "Question.findByQuestionText", query = "SELECT q FROM Question q WHERE q.questionText = :questionText"),
+    @NamedQuery(name = "Question.findByQuestiontype", query = "SELECT q FROM Question q WHERE q.questionType = :questionType"),
+    @NamedQuery(name = "Question.findByVersion", query = "SELECT q FROM Question q WHERE q.version = :version"),
+    @NamedQuery(name = "Question.findByDepreciated", query = "SELECT q FROM Question q WHERE q.depreciated = :depreciated"),
+@NamedQuery(name = "Question.findByDepreciatedAndModule", query = "SELECT q FROM Question q WHERE q.depreciated = :depreciated and q.module=:module")})
 public class Question extends AbstractEntity implements Serializable  {
   
     

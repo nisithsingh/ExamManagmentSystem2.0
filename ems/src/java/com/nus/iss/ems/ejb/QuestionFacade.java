@@ -66,7 +66,20 @@ public class QuestionFacade {
     public List<Question> retrieveQuestions(Module module) {
        
         module=em.find(Module.class, module.getId());
-       
-        return module.getQuestions();
+        TypedQuery<Question> query=em.createNamedQuery("Question.findByDepreciatedAndModule",Question.class);
+        query.setParameter("depreciated", 0);
+        query.setParameter("module", module);
+        return query.getResultList();
     }
+    
+    public boolean depreciateQuestion(Question question)
+    {
+        question=em.find(Question.class, question.getId());
+        question.setDepreciated(1);
+        em.persist(question);
+        em.flush();
+        return true;
+    }
+    
+    
 }

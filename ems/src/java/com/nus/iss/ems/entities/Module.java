@@ -9,12 +9,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Milan
  */
 @Entity
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Module.findAll", query = "SELECT m FROM Module m"),
     @NamedQuery(name = "Module.findById", query = "SELECT m FROM Module m WHERE m.id = :id"),

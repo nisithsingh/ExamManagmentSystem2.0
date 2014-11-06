@@ -154,8 +154,9 @@ public class QuestionController implements Serializable {
     @PostConstruct
     public void init() {
         retrieveModules();
-        if(moduleSelected!=null)
+        if (moduleSelected != null) {
             retrieveQuestions();
+        }
         questionSelected = new Question();
 
     }
@@ -166,7 +167,7 @@ public class QuestionController implements Serializable {
         modules = moduleFacade.retireveAllModules(lecturerID);
         if (modules != null && modules.size() > 0) {
             moduleSelected = modules.get(0);
-           // retrieveQuestions();
+            // retrieveQuestions();
 
         }
         return modules;
@@ -250,6 +251,18 @@ public class QuestionController implements Serializable {
 
     public Module getModule(java.lang.Long id) {
         return moduleFacade.findModule(id);
+    }
+
+    public void depreciateQuestion(Question question) {
+
+        boolean result = questionFacade.depreciateQuestion(question);
+        if (result) {
+            questions.remove(question);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(question.getQuestionText() + " Depreciated Successfully"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error occured while depreciating Question"));
+
+        }
     }
 
 //     public void onQuestionTypeChanged()

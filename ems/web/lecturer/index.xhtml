@@ -20,7 +20,7 @@
                 <h2>Question Management</h2>
 
                 <h:form id="form">
-                    <p:messages/>
+                    <p:messages id="messages"/>
 
 
 <!--                    <my:selectModule id="moduleDropDown1" moduleSelected="#{questionController.moduleSelected}" modules="#{questionController.modules}" updateValue="questionDataTable">
@@ -52,7 +52,7 @@
                             <p:commandButton value="Modify" action="#{questionController.setQuestionSelected(question)}" process="@this" oncomplete="PF('createQuestionDialog').show();" />
                         </p:column>
                         <p:column >
-                            <p:commandButton value="Depreciate" action="#{questionController.setQuestionSelected(question)}" process="@this" oncomplete="PF('createQuestionDialog').show();" />
+                            <p:commandButton value="Depreciate" action="#{questionController.depreciateQuestion(question)}" process="@this" update="questionDataTable,:form:messages" />
                         </p:column>
                     </p:dataTable>
 
