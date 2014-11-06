@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -57,6 +58,18 @@ public class QuestionController implements Serializable {
     int mark;
 
     private List<Question> questions;
+    
+    private Question questionSelected;
+
+    public Question getQuestionSelected() {
+        return questionSelected;
+    }
+
+    public void setQuestionSelected(Question questionSelected) {
+        this.questionSelected = questionSelected;
+    }
+    
+    
 
     public List<Question> getQuestions() {
         return questions;
@@ -140,12 +153,22 @@ public class QuestionController implements Serializable {
         this.modules = modules;
     }
 
+    
+    @PostConstruct
+    public void init()
+    {
+        questionSelected=new Question();
+        
+    }
+    
     public List<Module> retrieveModules() {
         String lecturerID = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
 
         modules = moduleFacade.retireveAllModules(lecturerID);
         if (modules != null && modules.size() > 0) {
             moduleSelected = modules.get(0);
+           // retrieveQuestions();
+            
         }
         return modules;
     }
@@ -221,6 +244,17 @@ public class QuestionController implements Serializable {
         questionText = "";
         options = new ArrayList<String>();
         mark = 0;
+        questionSelected=new Question();
+    }
+
+    public List<Question> retrieveQuestions() {
+        questions = questionFacade.retrieveQuestions(moduleSelected);
+        return questions;
+    }
+    
+    public void modifyQuestion(Question question)
+    {
+        
     }
 
 //     public void onQuestionTypeChanged()

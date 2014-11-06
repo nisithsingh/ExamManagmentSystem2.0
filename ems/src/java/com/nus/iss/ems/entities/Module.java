@@ -34,7 +34,20 @@ public class Module extends AbstractEntity implements Serializable {
     
     @OneToMany(mappedBy = "module")
     private List<ExamPaper> examPapers;
+    
+    @OneToMany(mappedBy = "module")
+    private List<Question> questions;
 
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
+    
+    
     public List<ExamPaper> getExamPapers() {
         return examPapers;
     }

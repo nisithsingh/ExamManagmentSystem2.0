@@ -27,6 +27,9 @@ public class Question extends AbstractEntity implements Serializable  {
     private Integer mark;
     private String questionText;
     
+    @ManyToOne
+    private Module module;
+    
     @Enumerated(EnumType.ORDINAL)
     private QuestionType questionType;
     
@@ -42,6 +45,16 @@ public class Question extends AbstractEntity implements Serializable  {
     @OneToMany(mappedBy = "question")
     private List<StudentAnswer> studentAnswers;
 
+    public Module getModule() {
+        return module;
+    }
+
+    public void setModule(Module module) {
+        this.module = module;
+    }
+
+    
+    
     public List<StudentAnswer> getStudentAnswers() {
         return studentAnswers;
     }

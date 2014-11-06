@@ -5,7 +5,6 @@
  */
 package com.nus.iss.ems.ejb;
 
-import com.nus.iss.ems.common.Constants;
 import com.nus.iss.ems.entities.Lecturer;
 import com.nus.iss.ems.entities.Module;
 import com.nus.iss.ems.entities.Question;
@@ -26,13 +25,12 @@ import javax.persistence.TypedQuery;
  */
 @Stateless
 public class QuestionFacade {
-    
+
     @PersistenceContext
     private EntityManager em;
-    
+
     public Question createQuestion(String lecturerId, Module module, List<SubjectTag> subjectTags, QuestionType questionType, String questionText, List<String> options, Integer mark) {
-        
-        
+
         TypedQuery<Lecturer> query = em.createNamedQuery("Lecturer.findByLecturerId", Lecturer.class);
         query.setParameter("lecturerId", lecturerId);
         List<Lecturer> lecturers = query.getResultList();
@@ -44,20 +42,28 @@ public class QuestionFacade {
             question.setQuestionText(questionText);
             question.setQuestionType(questionType);
             question.setVersion(0);
+            question.setModule(module);
             em.persist(question);
-            
+
             //save options
             for (String o : options) {
                 QuestionOption option = new QuestionOption();
                 option.setQuestion(question);
                 option.setValue(o);
                 em.persist(option);
+                
+                
             }
-            
-           // em.refresh(question);
+
             return question;
         }
-        
+
         return null;
+    }
+
+    public List<Question> retrieveQuestions(Module module) {
+       
+        em.flush();
+        return module.getQuestions();
     }
 }

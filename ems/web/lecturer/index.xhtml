@@ -14,32 +14,38 @@
         <ui:composition template="../template/mainLayout.xhtml">
             <ui:define name="content">
 
-                <!--                <f:metadata>
-                                    <f:event type="preRenderView" listener="#{questionController.retrieveModules()}"/>
-                                </f:metadata>-->
+
 
                 <h2>Question Management</h2>
 
                 <h:form id="form">
                     <p:messages/>
-                    <p:commandButton value="Create Question" type="button" onclick="PF('createQuestionDialog').show();" /> 
+                    <p:commandButton value="Create Question" type="button"  onclick="PF('createQuestionDialog').show();" /> 
                     
                     <p:selectOneMenu id="moduleDropDown1" value="#{questionController.moduleSelected.moduleName}" style="width:150px" required="true" >
-                        <p:ajax  update="questionDataTable" />
+                        <p:ajax listener="#{questionController.retrieveQuestions()}"  update="questionDataTable" />
                         <f:selectItems value="#{questionController.retrieveModules()}" />
                     </p:selectOneMenu>
 
-                    <p:dataTable id="questionDataTable" value="#{questionController.questions}" var="question" >
-                        <h:column>
-                            <p:outputLabel value="#{question.questionText}" />
-                        </h:column>
-                        <h:column>
-                            <p:outputLabel value="#{question.questionType}" />
-                        </h:column>
-                        <h:column>
-                            <p:outputLabel value="#{question.questionType}" />
-                        </h:column>
-                        
+                    <p:dataTable id="questionDataTable" value="#{questionController.retrieveQuestions()}" var="question" paginator="true" >
+                        <p:column headerText="Question Text">
+                            <p:outputLabel value="#{question.questionText}" escape="false"/>
+                        </p:column>
+                        <p:column headerText="Question Type">
+                            <p:outputLabel value="#{question.questionType.label}" />
+                        </p:column>
+                        <p:column headerText="Created By">
+                            <p:outputLabel value="#{question.createdBy.lecturerName}" />
+                        </p:column>
+                        <p:column headerText="Created On">
+                            <p:outputLabel value="#{question.createdOn}" />
+                        </p:column>
+                        <p:column >
+                            <p:commandButton value="Modify" action="#{questionController.setQuestionSelected(question)}" process="@this" oncomplete="PF('createQuestionDialog').show();" />
+                        </p:column>
+                        <p:column >
+                            <p:commandButton value="Depreciate" action="#{questionController.setQuestionSelected(question)}" process="@this" oncomplete="PF('createQuestionDialog').show();" />
+                        </p:column>
                     </p:dataTable>
 
                     <p:dialog header="Create Question" widgetVar="createQuestionDialog" minHeight="40" height="500" width="500">
@@ -48,9 +54,7 @@
                         <h:panelGrid columns="2" cellpadding="5">
                             <p:outputLabel for="moduleDropDown" value="Select Module :" />
                             <p:selectOneMenu id="moduleDropDown" value="#{questionController.moduleSelected.moduleName}" style="width:150px" required="true" >
-    <!--                            <p:ajax listener="#{questionController.onCountryChange}" update="city" />-->
-                                <!--                            <f:selectItem itemLabel="Select Module" itemValue="" noSelectionOption="false" />-->
-                                <f:selectItems value="#{questionController.retrieveModules()}" />
+                                <f:selectItems value="#{questionController.modules}" />
                             </p:selectOneMenu>
                             <p:outputLabel for="subjectTagDropDown" value="Select Subject :" />
                             <p:selectManyMenu id="subjectTagDropDown" value="#{questionController.subjectTagsSelected}" filter="true" filterMatchMode="contains" showCheckbox="true" required="true">
@@ -108,6 +112,9 @@
                     </p:dialog>
 
 
+                    
+                    
+                    
 
 
 
