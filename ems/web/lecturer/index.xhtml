@@ -6,6 +6,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:my="http://java.sun.com/jsf/composite/emsComponent"
       >
     <h:head></h:head>
 
@@ -20,12 +21,18 @@
 
                 <h:form id="form">
                     <p:messages/>
-                    <p:commandButton value="Create Question" type="button"  onclick="PF('createQuestionDialog').show();" /> 
+                  
                     
-                    <p:selectOneMenu id="moduleDropDown1" value="#{questionController.moduleSelected.moduleName}" style="width:150px" required="true" >
-                        <p:ajax listener="#{questionController.retrieveQuestions()}"  update="questionDataTable" />
-                        <f:selectItems value="#{questionController.retrieveModules()}" />
-                    </p:selectOneMenu>
+<!--                    <my:selectModule id="moduleDropDown1" moduleSelected="#{questionController.moduleSelected}" modules="#{questionController.modules}" updateValue="questionDataTable">
+
+                    </my:selectModule>-->
+                    <p:outputLabel for="moduleDropDown" value="Select Module :" />
+                   <p:selectOneMenu id="moduleDropDown" value="#{questionController.moduleSelected}" style="width:150px" required="true" >
+                                <f:selectItems value="#{questionController.modules}" var="module" itemValue="#{module}" 
+                                               itemLabel="#{module.moduleName}"/>
+                                 <f:converter converterId="moduleConverter" />
+                            </p:selectOneMenu>
+                      <p:commandButton value="Create Question" type="button"  onclick="PF('createQuestionDialog').show();" /> 
 
                     <p:dataTable id="questionDataTable" value="#{questionController.retrieveQuestions()}" var="question" paginator="true" >
                         <p:column headerText="Question Text">
@@ -50,15 +57,18 @@
 
                     <p:dialog header="Create Question" widgetVar="createQuestionDialog" minHeight="40" height="500" width="500">
 
-                        <p:messages/>
-                        <h:panelGrid columns="2" cellpadding="5">
-                            <p:outputLabel for="moduleDropDown" value="Select Module :" />
-                            <p:selectOneMenu id="moduleDropDown" value="#{questionController.moduleSelected}" style="width:150px" required="true" >
+                        
+                        <h:panelGrid columns="1" cellpadding="5">
+
+<!--                            <p:outputLabel for="moduleDropDown" value="Select Module :" />-->
+<!--                            <p:selectOneMenu id="moduleDropDown" value="#{questionController.moduleSelected}" style="width:150px" required="true" >
                                 <f:selectItems value="#{questionController.modules}" var="module" itemValue="#{module}" 
                                                itemLabel="#{module.moduleName}"/>
                                  <f:converter converterId="moduleConverter" />
-                            </p:selectOneMenu>
-                            <p:outputLabel for="subjectTagDropDown" value="Select Subject :" />
+                            </p:selectOneMenu>-->
+                            
+<h:panelGroup><p:outputLabel for="subjectTagDropDown" value="Select Subject :" />
+    <p:messages/>
                             <p:selectManyMenu id="subjectTagDropDown" value="#{questionController.subjectTagsSelected}" filter="true" filterMatchMode="contains" showCheckbox="true" required="true">
                                 
                                 
@@ -67,12 +77,14 @@
                                itemLabel="#{subjectItem.tagName}"></f:selectItems>
                                 <f:converter converterId="subjectTagConverter" />
                             </p:selectManyMenu>
-
+    </h:panelGroup>
+                            <h:panelGroup>
                             <p:outputLabel for="questionTypeDropDown" value="Select Question Type :" />
                             <p:selectOneMenu id="questionTypeDropDown" value="#{questionController.questionType}" required="true">
                                 <p:ajax  update="questionPG" />
                                 <f:selectItems value="#{questionController.questionTypes}" />
                             </p:selectOneMenu>
+                            </h:panelGroup>
 
 
                         </h:panelGrid>
@@ -113,7 +125,7 @@
                             <p:outputLabel value="Essay" rendered="#{questionController.questionType.label=='Essay'}"/>
                             <p:outputLabel value="Multi Part" rendered="#{questionController.questionType.label=='Multi Part'}"/>
 
-                            <p:commandButton value="Create Question" action="#{questionController.createQuestion}" process="@this,moduleDropDown,subjectTagDropDown,questionTypeDropDown,questionText,markInputText" update="form"/>
+                            <p:commandButton value="Create Question" action="#{questionController.createQuestion}" process="@this,moduleDropDown,subjectTagDropDown,questionTypeDropDown,questionText,markInputText" update="form,questionDataTable"/>
                         </h:panelGroup>
 
                     </p:dialog>

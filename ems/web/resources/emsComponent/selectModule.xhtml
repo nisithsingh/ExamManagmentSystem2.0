@@ -1,25 +1,27 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:cc="http://java.sun.com/jsf/composite"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-          
-      xmlns:f="http://java.sun.com/jsf/core">
-    <h:head></h:head>
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
     <!-- INTERFACE -->
     <cc:interface>
         <cc:attribute name="modules" required="true" type="java.util.List" />
         <cc:attribute name="moduleSelected" required="true" type="com.nus.iss.ems.entities.Module" />
+        <cc:attribute name="updateValue" type="java.lang.String" />
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <h:form id="selectModuleForm">
-            <p:outputLabel for="moduleDropDown" value="Select Module :" />
-            <p:selectOneMenu id="moduleDropDown" value="#{cc.attrs.moduleSelected.moduleName}" style="width:150px" required="true" >
-                <f:selectItems value="#{cc.attrs.modules}" />
-            </p:selectOneMenu>
-        </h:form>
+
+        <p:outputLabel for="moduleDropDown" value="Select Module :" />
+        <p:selectOneMenu id="moduleDropDown" value="#{cc.attrs.moduleSelected}" style="width:150px" required="true" >
+            <f:selectItems value="#{cc.attrs.modules}" var="module" itemValue="#{module}" 
+                           itemLabel="#{module.moduleName}"/>
+            <f:converter converterId="moduleConverter" />
+            <p:ajax update="#{cc.attrs.updateValue}" />
+        </p:selectOneMenu>
+
     </cc:implementation>
 </html>

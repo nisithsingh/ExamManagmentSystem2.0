@@ -153,6 +153,7 @@ public class QuestionController implements Serializable {
 
     @PostConstruct
     public void init() {
+        retrieveModules();
         questionSelected = new Question();
 
     }
