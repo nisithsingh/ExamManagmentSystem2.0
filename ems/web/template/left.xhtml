@@ -16,7 +16,7 @@
 
                     <p:menuitem rendered="#{request.getUserPrincipal()==null}" value="#{msg['login.title']}" icon="/resources/images/home.png" url="/"/>
                     <p:menuitem rendered="#{request.getUserPrincipal()==null}" value="#{msg['register']}" icon="/resources/images/home.png" url="/faces/register.xhtml"/>
-                    <p:menuitem rendered="#{request.isUserInRole('admin')}" value="#{msg['upload.title']}" icon="/resources/images/upload.png" url="#"/>
+                    <p:menuitem rendered="#{request.isUserInRole('admin')}" value="#{msg['upload.title']}" icon="/resources/images/upload.png" url="/faces/admin/upload.xhtml"/>
                     <p:menuitem rendered="#{request.isUserInRole('lecturer')}" value="#{msg['question.title']}" icon="/resources/images/question.png" url="#"/>
                     <p:menuitem rendered="#{request.isUserInRole('lecturer')}" value="#{msg['examPaper.title']}" icon="/resources/images/exampaper.png" url="#"/>
                     <p:menuitem rendered="#{request.isUserInRole('student')}" value="#{msg['examSession.title']}" icon="/resources/images/startExam.png" url="#"/>

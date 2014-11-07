@@ -38,5 +38,10 @@ public class ModuleFacade {
     public Module findModule(Long id) {
          return em.find(Module.class, id);
     }
-
+    
+    public List<Module> retrieveAll(){
+        TypedQuery<Module> query = em.createNamedQuery("Module.findAll", Module.class);
+        List<Module> modules = query.getResultList();
+        return modules;
+    }
 }

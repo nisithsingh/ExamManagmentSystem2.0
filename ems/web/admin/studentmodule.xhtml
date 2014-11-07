@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <ui:composition template="../template/mainLayout.xhtml">
+            <ui:define name="content">
+                <h:form id="form">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel for="studentSelectMenu" value="Select Student :"/>
+                        <p:selectOneMenu id="studentSelectMenu" value="#{studentModuleController.student}" converter="studentConverter" required="true" >
+                            <f:selectItems value="#{studentModuleController.students}" var="student" itemValue="#{student}" itemLabel="#{student.studentId}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel for="moduleSelectMenu" value="Select Modules :" />
+                        <p:selectManyMenu id="moduleSelectMenu" value="#{studentModuleController.selectedModule}" converter="moduleConverter" filter="true" filterMatchMode="contains" showCheckbox="true" required="true" >                        
+                            <f:selectItems value="#{studentModuleController.module}" var="moduleItem" itemValue="#{moduleItem}" itemLabel="#{moduleItem.moduleCode}"/>  
+                        </p:selectManyMenu>
+                    </p:panelGrid>
+                    <p:commandButton value="Assign" action="#{studentModuleController.assign()}" ajax="false"/>
+                    <p:messages/>
+                </h:form>   			
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+
+
+

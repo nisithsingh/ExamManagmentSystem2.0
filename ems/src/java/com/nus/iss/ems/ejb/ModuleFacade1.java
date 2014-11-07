@@ -5,7 +5,10 @@
  */
 package com.nus.iss.ems.ejb;
 
+
+import com.nus.iss.ems.entities.Module;
 import com.nus.iss.ems.entities.Student;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -17,21 +20,20 @@ import javax.persistence.TypedQuery;
  * @author Milan
  */
 @Stateless
-public class StudentFacade {
+public class ModuleFacade1 {
 
     @PersistenceContext
     private EntityManager em;
 
-    public Student findStudent(String studentId) {
+    public List<Module> retireveAllModules(String studentid) {
         TypedQuery<Student> query = em.createNamedQuery("Student.findByStudentId", Student.class);
-        query.setParameter("studentId", studentId);
+        query.setParameter("studentId", studentid);
         List<Student> students = query.getResultList();
-        if (students.size() > 0) {
-            return students.get(0);
+        if (students != null && students.size() > 0) {
+            return students.get(0).getModules();
         } else {
-            return null;
+            return new ArrayList<Module>();
         }
-
     }
-    
+
 }

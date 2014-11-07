@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+
+        <ui:composition template="../template/mainLayout.xhtml">
+            <ui:define name="content">
+                <h:form id="form">
+                    <p:messages id="messages" showDetail="true" autoUpdate="true" />
+                    <p:panelGrid columns="2" id="registerPanel">
+                        <p:outputLabel value="Lecturer Id :" />
+                        <p:inputText id="id" value="#{uploadController1.id}" required="true" requiredMessage="ID is required"/>
+                        <p:outputLabel value="Lecturer Name :" />
+                        <p:inputText id="name" value="#{uploadController1.name}" required="true" requiredMessage="Name is required"/>
+                        </p:panelGrid>
+                    <p:commandButton action="#{uploadController1.add()}" value="submit" ajax="false" />
+                </h:form> 			
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+
+
+
