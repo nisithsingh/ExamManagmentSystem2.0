@@ -5,7 +5,7 @@
  */
 package com.nus.iss.ems.ejb;
 
-import com.nus.iss.ems.entities.SubjectTag;
+import com.nus.iss.ems.entities.Lecturer;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -17,18 +17,20 @@ import javax.persistence.TypedQuery;
  * @author Milan
  */
 @Stateless
-public class SubjectTagFacade {
-   
+public class LecturerFacade {
+
     @PersistenceContext
     private EntityManager em;
-    
-    public List<SubjectTag> retireveAllSubjectTags()
-    {
-        TypedQuery<SubjectTag> query= em.createNamedQuery("SubjectTag.findAll",SubjectTag.class);
-        return query.getResultList();
-    }
 
-    public SubjectTag findSubjectTag(Long id) {
-       return em.find(SubjectTag.class, id);
+    public Lecturer findLecturer(String lecturerId) {
+        TypedQuery<Lecturer> query = em.createNamedQuery("Lecturer.findByLecturerId", Lecturer.class);
+        query.setParameter("lecturerId", lecturerId);
+        List<Lecturer> lecturers = query.getResultList();
+        if (lecturers.size() > 0) {
+            return lecturers.get(0);
+        } else {
+            return null;
+        }
+
     }
 }

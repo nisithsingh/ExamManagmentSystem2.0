@@ -7,6 +7,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import com.nus.iss.ems.enums.QuestionType;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
@@ -29,32 +30,44 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Question.findByQuestiontype", query = "SELECT q FROM Question q WHERE q.questionType = :questionType"),
     @NamedQuery(name = "Question.findByVersion", query = "SELECT q FROM Question q WHERE q.version = :version"),
     @NamedQuery(name = "Question.findByDepreciated", query = "SELECT q FROM Question q WHERE q.depreciated = :depreciated"),
-@NamedQuery(name = "Question.findByDepreciatedAndModule", query = "SELECT q FROM Question q WHERE q.depreciated = :depreciated and q.module=:module")})
+@NamedQuery(name = "Question.findByDepreciatedAndModule", query = "SELECT q FROM Question q WHERE q.depreciated = :depreciated and q.module=:module and q.version = ( select max(q1.version) FROM Question q1 where q1.id=q.id )")})
 public class Question extends AbstractEntity implements Serializable  {
   
     
     
-    private Integer version;
+    private Integer version=0;
     private Date createdOn;
     @ManyToOne
     private Lecturer createdBy;
     private Integer mark;
     private String questionText;
     
+    private Question previousQuestion;
+
+    public Question getPreviousQuestion() {
+        return previousQuestion;
+    }
+
+    public void setPreviousQuestion(Question previousQuestion) {
+        this.previousQuestion = previousQuestion;
+    }
+    
+    
+    
     @ManyToOne
     private Module module;
     
     @Enumerated(EnumType.ORDINAL)
-    private QuestionType questionType;
+    private QuestionType questionType=QuestionType.MCQ_OneCorrect;
     
     @ManyToMany
-    private List<SubjectTag> subjectTags;
+    private List<SubjectTag> subjectTags=new ArrayList<SubjectTag>();
     
     @ManyToMany
     private List<ExamSection> examSections;
     
     @OneToMany(mappedBy = "question")
-    private List<QuestionOption> questionOptions;
+    private List<QuestionOption> questionOptions=new ArrayList<QuestionOption>();
     
     @OneToMany(mappedBy = "question")
     private List<StudentAnswer> studentAnswers;

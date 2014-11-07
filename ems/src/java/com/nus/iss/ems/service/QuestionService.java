@@ -6,6 +6,12 @@
 package com.nus.iss.ems.service;
 
 import com.nus.iss.ems.entities.Module;
+import com.nus.iss.ems.entities.Question;
+import static com.nus.iss.ems.entities.Question_.mark;
+import static com.nus.iss.ems.entities.Question_.module;
+import static com.nus.iss.ems.entities.Question_.questionText;
+import static com.nus.iss.ems.entities.Question_.questionType;
+import static com.nus.iss.ems.entities.Question_.subjectTags;
 import com.nus.iss.ems.entities.SubjectTag;
 import com.nus.iss.ems.enums.QuestionType;
 import java.util.HashMap;
@@ -48,6 +54,40 @@ public class QuestionService {
         if(options==null || options.size()==0)
         {
             if(questionType!=null && questionType!=questionType.ESSAY)
+            errors.put("questionOptionDataTable", "Question Option is Required");
+        }
+        return errors;
+    }
+    
+    
+    public Map<String, String> validateQuestion(Question question) {
+        errors = new HashMap<String, String>();
+        
+        if (question.getMark() == 0 ) {
+            errors.put("markInputText", "Mark should be greater than 0");
+        }
+        
+        if (question.getModule() == null ) {
+            errors.put("moduleDropDown", "Module Code is Required");
+        }
+
+        if (question.getSubjectTags() == null || question.getSubjectTags().size() == 0) {
+            errors.put("subjectTagDropDown", "Subject Tag is Required");
+        }
+
+        if (question.getQuestionType() == null) {
+
+            errors.put("questionTypeDropDown", "Question Type is Required");
+        }
+        
+        if(question.getQuestionText()==null || question.getQuestionText().equals(""))
+        {
+            errors.put("questionText", "Question Text is Required");
+        }
+        
+        if(question.getQuestionOptions()==null || question.getQuestionOptions().size()==0)
+        {
+            if(question.getQuestionType()!=null && question.getQuestionType()!=QuestionType.ESSAY)
             errors.put("questionOptionDataTable", "Question Option is Required");
         }
         return errors;

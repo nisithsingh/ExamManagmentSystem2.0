@@ -1,11 +1,18 @@
 package com.nus.iss.ems.controller;
 
 import com.nus.iss.ems.common.Constants;
-import com.nus.iss.ems.enums.QuestionType;
+import com.nus.iss.ems.ejb.AdminFacade;
+import com.nus.iss.ems.ejb.LecturerFacade;
+import com.nus.iss.ems.ejb.StudentFacade;
+import com.nus.iss.ems.entities.Admin;
+import com.nus.iss.ems.entities.Lecturer;
+import com.nus.iss.ems.entities.Student;
 import java.io.Serializable;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +25,14 @@ import javax.servlet.http.HttpServletRequest;
 public class LoginBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    @Inject UserBean userBean;
+    
+    @EJB StudentFacade studentFacade;
+    
+    @EJB LecturerFacade lecturerFacade;
+    
+    @EJB AdminFacade adminFacade;
 
     private String username;
     private String password;
@@ -59,10 +74,19 @@ public class LoginBean implements Serializable {
             return "login";
         }
         if (request.isUserInRole("student")) {
+            Student student=studentFacade.findStudent(request.getUserPrincipal().getName());
+            userBean.setRole("student");
+            userBean.setStudent(student);
             return "/student/index?faces-redirect=true";
         } else if (request.isUserInRole("lecturer")) {
+            Lecturer lecturer=lecturerFacade.findLecturer(request.getUserPrincipal().getName());
+            userBean.setRole("lecturer");
+            userBean.setLecturer(lecturer);
             return "lecturer/index";
         } else if (request.isUserInRole("admin")) {
+            Admin admin=adminFacade.findAdmin(request.getUserPrincipal().getName());
+            userBean.setRole("admin");
+            userBean.setAdmin(admin);
             return "admin/index";
         } else {
             return "login";
