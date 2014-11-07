@@ -9,10 +9,12 @@ import javax.persistence.ManyToOne;
 import com.nus.iss.ems.enums.QuestionType;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Question.findByQuestiontype", query = "SELECT q FROM Question q WHERE q.questionType = :questionType"),
     @NamedQuery(name = "Question.findByVersion", query = "SELECT q FROM Question q WHERE q.version = :version"),
     @NamedQuery(name = "Question.findByDepreciated", query = "SELECT q FROM Question q WHERE q.depreciated = :depreciated"),
-@NamedQuery(name = "Question.findByDepreciatedAndModule", query = "SELECT q FROM Question q WHERE q.depreciated = :depreciated and q.module=:module and q.version = ( select max(q1.version) FROM Question q1 where q1.id=q.id )")})
+@NamedQuery(name = "Question.findByDepreciatedAndModule", query = "SELECT q FROM Question q WHERE q.depreciated = :depreciated and q.module=:module")})
 public class Question extends AbstractEntity implements Serializable  {
   
     
@@ -42,6 +44,7 @@ public class Question extends AbstractEntity implements Serializable  {
     private Integer mark;
     private String questionText;
     
+    @OneToOne(cascade=CascadeType.ALL)
     private Question previousQuestion;
 
     public Question getPreviousQuestion() {

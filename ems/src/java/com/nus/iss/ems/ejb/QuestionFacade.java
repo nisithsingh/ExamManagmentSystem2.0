@@ -94,14 +94,24 @@ public class QuestionFacade {
 
         return null;
     }
-    
-    public Question modifyQuestion(Question question)
-    {
-        Question previousQuestion=em.find(Question.class, question.getId());
-        
-        question.setVersion(question.getVersion()+1);
+
+    public Question modifyQuestion(Question question) {
+        Question previousQuestion = em.find(Question.class, question.getId());
+        previousQuestion.setDepreciated(1);
+        em.persist(previousQuestion);
+
+        question.setVersion(question.getVersion() + 1);
         question.setCreatedOn(new Date(System.currentTimeMillis()));
+        question.setPreviousQuestion(previousQuestion);
         em.persist(question);
+        for (QuestionOption qo : question.getQuestionOptions()) {
+
+            qo.setQuestion(question);
+
+            em.persist(qo);
+
+        }
+
         em.flush();
         question = em.find(Question.class, question.getId());
         return question;
