@@ -7,7 +7,6 @@ package com.nus.iss.ems.converter;
 
 import com.nus.iss.ems.controller.QuestionController;
 import com.nus.iss.ems.entities.Module;
-import com.nus.iss.ems.entities.SubjectTag;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;

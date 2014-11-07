@@ -35,7 +35,7 @@
                     </p:selectOneMenu>
                     <p:commandButton value="Create Question"  actionListener="#{questionController.setQuestionToCreate()}" process="@this" oncomplete="PF('createQuestionDialog').show();" update="@form"/> 
 
-                    <p:dataTable id="questionDataTable" value="#{questionController.questions}" var="question" paginator="true" >
+                    <p:dataTable id="questionDataTable" value="#{questionController.questions}" var="question" paginator="true" rows="10" rowsPerPageTemplate="5,10,15" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
                         <p:column headerText="Question Text">
                             <p:outputLabel value="#{question.questionText}" escape="false"/>
                         </p:column>

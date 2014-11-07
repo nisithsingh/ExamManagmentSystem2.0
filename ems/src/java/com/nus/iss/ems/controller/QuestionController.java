@@ -15,7 +15,6 @@ import com.nus.iss.ems.entities.SubjectTag;
 import com.nus.iss.ems.enums.QuestionType;
 import com.nus.iss.ems.service.QuestionService;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -23,6 +22,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 
 import javax.inject.Named;
 
@@ -48,12 +48,10 @@ public class QuestionController implements Serializable {
     private boolean isInCreateMode = true;
 
     private String dailogTitle = "Create Question";
+    
+    @Inject UserBean userBean;
 
-    //private Module moduleSelected;
-    // private List<SubjectTag> subjectTags;
-    // private List<SubjectTag> subjectTagsSelected = new ArrayList<SubjectTag>();
-    //private String questionText;
-    //private List<String> options = new ArrayList<String>();
+  
     private String option;
 
     private Question question;
@@ -69,14 +67,6 @@ public class QuestionController implements Serializable {
 
     private List<Question> questions;
 
-    //private Question questionSelected;
-//    public Question getQuestionSelected() {
-//        return questionSelected;
-//    }
-//
-//    public void setQuestionSelected(Question questionSelected) {
-//        this.questionSelected = questionSelected;
-//    }
     public List<Question> getQuestions() {
         return questions;
     }
@@ -85,13 +75,6 @@ public class QuestionController implements Serializable {
         this.questions = questions;
     }
 
-//    public int getMark() {
-//        return mark;
-//    }
-//
-//    public void setMark(int mark) {
-//        this.mark = mark;
-//    }
     public String getOption() {
         return option;
     }
@@ -100,51 +83,6 @@ public class QuestionController implements Serializable {
         this.option = option;
     }
 
-//    public List<String> getOptions() {
-//        return options;
-//    }
-//
-//    public void setOptions(List<String> options) {
-//        this.options = options;
-//    }
-//
-//    public String getQuestionText() {
-//        return questionText;
-//    }
-//
-//    public void setQuestionText(String questionText) {
-//        this.questionText = questionText;
-//    }
-    //private QuestionType questionType = QuestionType.MCQ_OneCorrect;
-//    public QuestionType getQuestionType() {
-//        return questionType;
-//    }
-//
-//    public void setQuestionType(QuestionType questionType) {
-//        this.questionType = questionType;
-//    }
-//    public List<SubjectTag> getSubjectTags() {
-//        return subjectTags;
-//    }
-//
-//    public void setSubjectTags(List<SubjectTag> subjectTags) {
-//        this.subjectTags = subjectTags;
-//    }
-//
-//    public List<SubjectTag> getSubjectTagsSelected() {
-//        return subjectTagsSelected;
-//    }
-//
-//    public void setSubjectTagsSelected(List<SubjectTag> subjectTagsSelected) {
-//        this.subjectTagsSelected = subjectTagsSelected;
-//    }
-//    public Module getModuleSelected() {
-//        return moduleSelected;
-//    }
-//
-//    public void setModuleSelected(Module moduleSelected) {
-//        this.moduleSelected = moduleSelected;
-//    }
     public List<Module> getModules() {
         return modules;
     }
@@ -229,17 +167,7 @@ public class QuestionController implements Serializable {
     }
 
     public void createorModifyQuestion() {
-//        System.out.println("module :" + moduleSelected);
-//        System.out.println("subjectTags size: " + subjectTags.size());
-//        System.out.println("Question Type :" + questionType.getLabel());
-//        System.out.println("Question Text:" + questionText);
-//        System.out.println("Options Size :" + options.size());
-//        
-//        question.setMark(mark);
-//        question.setQuestionText(questionText);
-//        question.setQuestionType(questionType);
-//        question.setSubjectTags(subjectTags);
-//        question.setModule(moduleSelected);
+
 
         Map<String, String> errors = new QuestionService().validateQuestion(question);
         FacesContext context = FacesContext.getCurrentInstance();
@@ -251,8 +179,9 @@ public class QuestionController implements Serializable {
             }
         } else {
             if (isInCreateMode) {
-                String lecturerID = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
-                Question newQuestion = questionFacade.createQuestion(lecturerID, question);
+                //String lecturerID = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
+                
+                Question newQuestion = questionFacade.createQuestion(userBean.getLecturer(), question);
                 if (newQuestion == null) {
                     FacesMessage error = new FacesMessage("Error Occured while saving Question");
                     context.addMessage(null, error);
@@ -283,13 +212,7 @@ public class QuestionController implements Serializable {
 
     public void reset() {
         question = new Question();
-//        moduleSelected = null;
-//        subjectTags = null;
-//        questionType = questionType.MCQ_OneCorrect;
-//        questionText = "";
-//        options = new ArrayList<String>();
-//        mark = 0;
-//        questionSelected = new Question();
+
     }
 
     public List<Question> retrieveQuestions() {
@@ -331,11 +254,4 @@ public class QuestionController implements Serializable {
         setIsInCreateMode(true);
     }
 
-//     public void onQuestionTypeChanged()
-//     {
-//         if(questionType.ordinal()==1)
-//         {
-//             
-//         }
-//     }
 }

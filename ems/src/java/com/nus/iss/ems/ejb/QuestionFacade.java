@@ -29,70 +29,39 @@ public class QuestionFacade {
     @PersistenceContext
     private EntityManager em;
 
-    public Question createQuestion(String lecturerId, Module module, List<SubjectTag> subjectTags, QuestionType questionType, String questionText, List<String> options, Integer mark) {
+    
 
-        TypedQuery<Lecturer> query = em.createNamedQuery("Lecturer.findByLecturerId", Lecturer.class);
-        query.setParameter("lecturerId", lecturerId);
-        List<Lecturer> lecturers = query.getResultList();
-        Question question = new Question();
-        if (lecturers != null && lecturers.size() > 0) {
-            question.setCreatedBy(lecturers.get(0));
-            question.setCreatedOn(new Date(System.currentTimeMillis()));
-            question.setMark(mark);
-            question.setQuestionText(questionText);
-            question.setQuestionType(questionType);
-            question.setVersion(0);
-            question.setModule(module);
-            question.setSubjectTags(subjectTags);
-            em.persist(question);
+    public Question createQuestion(Lecturer lecturer, Question question) {
 
-            //save options
-            for (String o : options) {
-                QuestionOption option = new QuestionOption();
-                option.setQuestion(question);
-                option.setValue(o);
-                em.persist(option);
-
-            }
-
-            em.flush();
-            return question;
-        }
-
-        return null;
-    }
-
-    public Question createQuestion(String lecturerId, Question question) {
-
-        TypedQuery<Lecturer> query = em.createNamedQuery("Lecturer.findByLecturerId", Lecturer.class);
-        query.setParameter("lecturerId", lecturerId);
-        List<Lecturer> lecturers = query.getResultList();
+//        TypedQuery<Lecturer> query = em.createNamedQuery("Lecturer.findByLecturerId", Lecturer.class);
+//        query.setParameter("lecturerId", lecturer);
+//        List<Lecturer> lecturers = query.getResultList();
 //        Question question = new Question();
-        if (lecturers != null && lecturers.size() > 0) {
-            question.setCreatedBy(lecturers.get(0));
-            question.setCreatedOn(new Date(System.currentTimeMillis()));
+        //if (lecturers != null && lecturers.size() > 0) {
+        question.setCreatedBy(lecturer);
+        question.setCreatedOn(new Date(System.currentTimeMillis()));
 //            question.setMark(mark);
 //            question.setQuestionText(questionText);
 //            question.setQuestionType(questionType);
 //            question.setVersion(0);
 //            question.setModule(module);
 //            question.setSubjectTags(subjectTags);
-            em.persist(question);
+        em.persist(question);
 
-            //save options
-            for (QuestionOption qo : question.getQuestionOptions()) {
+        //save options
+        for (QuestionOption qo : question.getQuestionOptions()) {
 
-                qo.setQuestion(question);
+            qo.setQuestion(question);
 
-                em.persist(qo);
+            em.persist(qo);
 
-            }
-
-            em.flush();
-            return question;
         }
 
-        return null;
+        em.flush();
+        return question;
+       // }
+
+        // return null;
     }
 
     public Question modifyQuestion(Question question) {
