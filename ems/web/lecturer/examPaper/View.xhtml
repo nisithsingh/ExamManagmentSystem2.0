@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{examPaper.ViewExamPaperTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{examPaper.ViewExamPaperLabel_createDate}"/>
+                    <h:outputText value="#{examPaperController.selected.createDate}" title="#{examPaper.ViewExamPaperTitle_createDate}"/>
+                    <h:outputText value="#{examPaper.ViewExamPaperLabel_startDate}"/>
+                    <h:outputText value="#{examPaperController.selected.startDate}" title="#{examPaper.ViewExamPaperTitle_startDate}"/>
+                    <h:outputText value="#{examPaper.ViewExamPaperLabel_duration}"/>
+                    <h:outputText value="#{examPaperController.selected.duration}" title="#{examPaper.ViewExamPaperTitle_duration}"/>
+                    <h:outputText value="#{examPaper.ViewExamPaperLabel_module}"/>
+                    <h:outputText value="#{examPaperController.selected.module}" title="#{examPaper.ViewExamPaperTitle_module}"/>
+                    <h:outputText value="#{examPaper.ViewExamPaperLabel_id}"/>
+                    <h:outputText value="#{examPaperController.selected.id}" title="#{examPaper.ViewExamPaperTitle_id}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{examPaperController.destroyAndView}" value="#{examPaper.ViewExamPaperDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{examPaper.ViewExamPaperEditLink}"/>
+                <br />
+                <h:commandLink action="#{examPaperController.prepareCreate}" value="#{examPaper.ViewExamPaperCreateLink}" />
+                <br />
+                <h:commandLink action="#{examPaperController.prepareList}" value="#{examPaper.ViewExamPaperShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{examPaper.ViewExamPaperIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

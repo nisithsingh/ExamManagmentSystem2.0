@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{examPaper.EditExamPaperTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{examPaper.EditExamPaperLabel_createDate}" for="createDate" />
+                    <h:inputText id="createDate" value="#{examPaperController.selected.createDate}" title="#{examPaper.EditExamPaperTitle_createDate}" />
+                    <h:outputLabel value="#{examPaper.EditExamPaperLabel_startDate}" for="startDate" />
+                    <h:inputText id="startDate" value="#{examPaperController.selected.startDate}" title="#{examPaper.EditExamPaperTitle_startDate}" />
+                    <h:outputLabel value="#{examPaper.EditExamPaperLabel_duration}" for="duration" />
+                    <h:inputText id="duration" value="#{examPaperController.selected.duration}" title="#{examPaper.EditExamPaperTitle_duration}" />
+                    <h:outputLabel value="#{examPaper.EditExamPaperLabel_module}" for="module" />
+                    <h:selectOneMenu id="module" value="#{examPaperController.selected.module}" title="#{examPaper.EditExamPaperTitle_module}" >
+                        <f:selectItems value="#{moduleController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{examPaper.EditExamPaperLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{examPaperController.selected.id}" title="#{examPaper.EditExamPaperTitle_id}" />
+                </h:panelGrid>
+                <h:commandLink action="#{examPaperController.update}" value="#{examPaper.EditExamPaperSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{examPaper.EditExamPaperViewLink}"/>
+                <br />
+                <h:commandLink action="#{examPaperController.prepareList}" value="#{examPaper.EditExamPaperShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{examPaper.EditExamPaperIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

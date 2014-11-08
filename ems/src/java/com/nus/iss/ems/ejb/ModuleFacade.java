@@ -7,6 +7,7 @@ package com.nus.iss.ems.ejb;
 
 import com.nus.iss.ems.entities.Lecturer;
 import com.nus.iss.ems.entities.Module;
+import com.nus.iss.ems.temp.AbstractFacade;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -19,10 +20,19 @@ import javax.persistence.TypedQuery;
  * @author Milan
  */
 @Stateless
-public class ModuleFacade {
+public class ModuleFacade extends AbstractFacade<Module> {
 
     @PersistenceContext
     private EntityManager em;
+    
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+    
+    public ModuleFacade() {
+        super(Module.class);
+    }
 
     public List<Module> retireveAllModules(String lecturerId) {
         TypedQuery<Lecturer> query = em.createNamedQuery("Lecturer.findByLecturerId", Lecturer.class);

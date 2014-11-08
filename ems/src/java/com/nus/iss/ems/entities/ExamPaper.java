@@ -21,8 +21,8 @@ import javax.persistence.OneToMany;
 @Entity
 public class ExamPaper extends AbstractEntity implements Serializable  {
     
-
-    private Date createDate;
+    private String name;
+    private Date createDate=new Date(System.currentTimeMillis());
     private Date startDate;
     private Integer duration;
     
@@ -34,11 +34,21 @@ public class ExamPaper extends AbstractEntity implements Serializable  {
     
     @OneToMany(mappedBy = "examPaper")
     List<ExamSession> examSession;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    
     
     public Date getCreateDate() {
         return createDate;
     }
-
+    
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }

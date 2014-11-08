@@ -18,5 +18,41 @@
             <base-name>/Bundle</base-name>
             <var>bundle</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>/examPaper</base-name>
+            <var>examPaper</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/examPaper</base-name>
+            <var>examPaper</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/examPaper</base-name>
+            <var>examPaper</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/examPaper</base-name>
+            <var>examPaper</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/examSection</base-name>
+            <var>examSection</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/examPaper</base-name>
+            <var>examPaper</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/examPaper</base-name>
+            <var>examPaper</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/examPaper</base-name>
+            <var>examPaper</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/examPaper</base-name>
+            <var>examPaper</var>
+        </resource-bundle>
     </application>
 </faces-config>

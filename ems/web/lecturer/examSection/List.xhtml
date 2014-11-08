@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{examPaper.ListExamSectionTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{examPaper.ListExamSectionEmpty}" rendered="#{examSectionController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{examSectionController.items.rowCount > 0}">
+                    <h:outputText value="#{examSectionController.pagination.pageFirstItem + 1}..#{examSectionController.pagination.pageLastItem + 1}/#{examSectionController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{examSectionController.previous}" value="#{examPaper.Previous} #{examSectionController.pagination.pageSize}" rendered="#{examSectionController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{examSectionController.next}" value="#{examPaper.Next} #{examSectionController.pagination.pageSize}" rendered="#{examSectionController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{examSectionController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{examPaper.ListExamSectionTitle_examPaper}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.examPaper}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{examPaper.ListExamSectionTitle_sectionName}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.sectionName}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{examPaper.ListExamSectionTitle_totalMarks}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.totalMarks}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{examPaper.ListExamSectionTitle_sectionType}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.sectionType}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{examPaper.ListExamSectionTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{examSectionController.prepareView}" value="#{examPaper.ListExamSectionViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{examSectionController.prepareEdit}" value="#{examPaper.ListExamSectionEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{examSectionController.destroy}" value="#{examPaper.ListExamSectionDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{examSectionController.prepareCreate}" value="#{examPaper.ListExamSectionCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{examPaper.ListExamSectionIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

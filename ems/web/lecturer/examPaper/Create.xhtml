@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{examPaper.CreateExamPaperTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{examPaper.CreateExamPaperLabel_createDate}" for="createDate" />
+                    <h:inputText id="createDate" value="#{examPaperController.selected.createDate}" title="#{examPaper.CreateExamPaperTitle_createDate}" />
+                    <h:outputLabel value="#{examPaper.CreateExamPaperLabel_startDate}" for="startDate" />
+                    <h:inputText id="startDate" value="#{examPaperController.selected.startDate}" title="#{examPaper.CreateExamPaperTitle_startDate}" />
+                    <h:outputLabel value="#{examPaper.CreateExamPaperLabel_duration}" for="duration" />
+                    <h:inputText id="duration" value="#{examPaperController.selected.duration}" title="#{examPaper.CreateExamPaperTitle_duration}" />
+                    <h:outputLabel value="#{examPaper.CreateExamPaperLabel_module}" for="module" />
+                    <h:selectOneMenu id="module" value="#{examPaperController.selected.module}" title="#{examPaper.CreateExamPaperTitle_module}" >
+                        <f:selectItems value="#{moduleController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{examPaper.CreateExamPaperLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{examPaperController.selected.id}" title="#{examPaper.CreateExamPaperTitle_id}" />
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{examPaperController.create}" value="#{examPaper.CreateExamPaperSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{examPaperController.prepareList}" value="#{examPaper.CreateExamPaperShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{examPaper.CreateExamPaperIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
