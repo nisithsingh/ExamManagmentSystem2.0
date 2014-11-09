@@ -3,7 +3,9 @@ package com.nus.iss.ems.entities;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -29,10 +31,10 @@ public class ExamPaper extends AbstractEntity implements Serializable  {
     @ManyToOne
     private Module module;
 
-    @OneToMany(mappedBy = "examPaper")
-    List<ExamSection> sections;
+    @OneToMany(mappedBy = "examPaper",cascade = CascadeType.REMOVE)
+    List<ExamSection> sections=new ArrayList<ExamSection>();
     
-    @OneToMany(mappedBy = "examPaper")
+    @OneToMany(mappedBy = "examPaper" , cascade = CascadeType.ALL)
     List<ExamSession> examSession;
 
     public String getName() {

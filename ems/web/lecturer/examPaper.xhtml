@@ -22,9 +22,10 @@
                     <p:commandButton value="Create Exam Paper"  actionListener="#{examPaperController.setExamPaperToCreate()}" process="@this" oncomplete="PF('examPaperDailog').show();" update="@form"/> 
 
 
-                    <p:dialog id="examPaperDailog" header="#{examPaperController.dailogTitle}" widgetVar="examPaperDailog" minHeight="40" height="500" width="500">
+                    <p:dialog id="examPaperDailog" header="#{examPaperController.dailogTitle}" widgetVar="examPaperDailog" minHeight="40" height="500" width="500" maximizable="true" >
+                        <p:messages id="examPaperDailogMsg"/>
+                        <p:panelGrid id="examPaperPG" columns="2">
 
-                        <p:panelGrid columns="2">
                             <p:outputLabel value="#{examPaper.CreateExamPaperLabel_name}" for="name" />
                             <p:inputText id="name" value="#{examPaperController.selected.name}" title="#{examPaper.CreateExamPaperTitle_name}" required="true" requiredMessage="Name  is Required"/>
                             <p:outputLabel value="#{examPaper.CreateExamPaperLabel_startDate}" for="startDate" />
@@ -38,15 +39,70 @@
                                 <p:inputText id="duration" value="#{examPaperController.selected.duration}" title="#{examPaper.CreateExamPaperTitle_duration}" required="true" requiredMessage="duration is required"/>
                             </h:panelGroup>
                             <p:outputLabel value="#{examPaper.CreateExamPaperLabel_module}" for="module" />
-                            <p:selectOneMenu id="module" value="#{examPaperController.selected.module}" >
-                                <f:selectItems value="#{moduleController.itemsAvailableSelectOne}"/>
+                            <p:selectOneMenu id="module" value="#{examPaperController.selected.module}" converter="moduleConverter">
+                                <f:selectItems value="#{examPaperController.modules}"/>
                             </p:selectOneMenu>
-                            <p:commandButton action="#{examPaperController.create()}" value="#{examPaper.CreateExamPaperSaveLink}" process="@form" update="examForm,examPaperDataTable,examPaperDailog"/>
+                            <!--                            <p:commandButton value="Add Section" type="button"  onclick="PF('examSectionDialog').show();" />-->
+                            <p:panelGrid id="addSectionPG" columns="1">
+                                <p:inputText id="sectionName" value="#{examPaperController.examSection.sectionName}" placeholder="Exam Section" required="true"/>
+                                <p:slider for="mark" minValue="2" maxValue="100"/>
+                                <p:inputText id="mark" value="#{examPaperController.examSection.totalMarks}" placeholder="Mark" required="true"/>
+                                <p:selectManyMenu id="subjectTagDropDown" value="#{examPaperController.examSection.subjectTags}" filter="true" filterMatchMode="contains" showCheckbox="true" required="true">
+
+
+                                    <f:selectItems value="#{examPaperController.retrieveSubjectTags()}" 
+                                                   var="subjectItem" itemValue="#{subjectItem}" 
+                                                   itemLabel="#{subjectItem.tagName}"></f:selectItems>
+                                    <f:converter converterId="subjectTagConverter" />
+                                </p:selectManyMenu>
+
+                                <p:selectOneMenu id="sectionTypeDropDown" value="#{examPaperController.examSection.sectionType}" required="true">
+                                    <f:selectItems value="#{examPaperController.sectionTypes}" />
+                                </p:selectOneMenu>
+
+                                
+
+                                <p:commandButton value="Add Section" action="#{examPaperController.addSection()}" process="@this,sectionName,mark,sectionTypeDropDown,module,subjectTagDropDown" update="examSectionAccordianPanel,examPaperDailogMsg,:#{p:component('addSectionPG')}"/>
+                            </p:panelGrid>
+
 
 
                         </p:panelGrid>
-                        <br />
 
+
+                        <p:accordionPanel id="examSectionAccordianPanel" value="#{examPaperController.selected.sections}" var="examSectionVar" >
+                            <p:tab  title="#{examSectionVar}" closable="true">
+                                <p:dataTable  value="#{examSectionVar.questions}" var="question">
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Question Name"/>
+                                        </f:facet>
+                                        <p:outputLabel value="#{question.questionText}" escape="true"/>
+                                        <p:commandButton value="X" action="#{examPaperController.removeQuestionFromSection(examSectionVar,question)}" process="@this" update=":#{p:component('examSectionAccordianPanel')}" />
+                                    </p:column>
+                                </p:dataTable>
+                                <p:selectManyMenu id="questionDropDown" value="#{examSectionVar.questionSelected}" style="width:150px"  filter="true" filterMatchMode="contains" showCheckbox="true">
+                                    <f:selectItems value="#{examPaperController.questions}" var="question" itemValue="#{question}" 
+                                                   itemLabel="#{question.questionText}"/>
+                                    <f:converter converterId="questionConverter" />
+
+                                </p:selectManyMenu>
+                                <p:commandButton value="Add Questions" action="#{examPaperController.addQuestion(examSectionVar,examSectionVar.questionSelected)}" process="@this,questionDropDown" update=":#{p:component('examSectionAccordianPanel')}"/>
+                            </p:tab>
+                        </p:accordionPanel>
+
+                        <p:commandButton action="#{examPaperController.create()}" value="#{examPaper.CreateExamPaperSaveLink}" process="@this,name,startDate,duration,module,examSectionAccordianPanel" update="examForm,examPaperDailogMsg"/>
+
+
+                        <br />
+                        <br />
+                        <br />
+                        
+
+
+                    </p:dialog>
+
+                    <p:dialog id="examSectionDialog" header="Exam Section">
 
                     </p:dialog>
 
@@ -85,11 +141,11 @@
                         </p:column>
 
                         <p:column>
-                            <p:commandButton action="#{examPaperController.prepareEdit}" value="#{examPaper.ListExamPaperAddSectionLink}"/>
+                            <p:commandButton action="#{examPaperController.prepareEdit}" value="#{examPaper.ListExamPaperAddSectionLink}" process="@this" update=":#{p:component('examForm')}" oncomplete="PF('examPaperDailog').show();"/>
                         </p:column>
 
                         <p:column>
-                            <p:commandButton action="#{examPaperController.destroy}" value="#{examPaper.ListExamPaperDeleteExamLink}"/>
+                            <p:commandButton action="#{examPaperController.destroy}" value="#{examPaper.ListExamPaperDeleteExamLink}" process="@this"  update=":#{p:component('examForm')}"/>
                         </p:column>
                     </p:dataTable>
                 </h:form>

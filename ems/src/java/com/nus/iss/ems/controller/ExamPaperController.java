@@ -2,14 +2,27 @@ package com.nus.iss.ems.controller;
 
 import com.nus.iss.ems.entities.ExamPaper;
 import com.nus.iss.ems.ejb.ExamPaperFacade;
+import com.nus.iss.ems.ejb.ModuleFacade;
+import com.nus.iss.ems.ejb.QuestionFacade;
+import com.nus.iss.ems.ejb.SubjectTagFacade;
+import com.nus.iss.ems.entities.ExamSection;
+import static com.nus.iss.ems.entities.Lecturer_.modules;
+import com.nus.iss.ems.entities.Module;
+import com.nus.iss.ems.entities.Question;
+import static com.nus.iss.ems.entities.StudentAnswer_.question;
+import com.nus.iss.ems.entities.SubjectTag;
+import com.nus.iss.ems.enums.SectionType;
 import com.nus.iss.ems.service.ExamPaperService;
 import com.nus.iss.ems.temp.util.JsfUtil;
 import com.nus.iss.ems.temp.util.PaginationHelper;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.application.FacesMessage;
@@ -29,6 +42,56 @@ public class ExamPaperController implements Serializable {
 
     @Inject
     ExamPaperService examPaperService;
+
+    @EJB
+    ModuleFacade moduleFacade;
+
+    @EJB
+    QuestionFacade questionFacade;
+
+    @Inject
+    UserBean userBean;
+
+    List<Module> modules;
+
+    @EJB
+    SubjectTagFacade subjectTagFacade;
+
+    @EJB
+    ExamPaperFacade examPaperFacade;
+
+    private List<Question> questions = new ArrayList<Question>();
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
+    @PostConstruct
+    public void init() {
+        resetExamPaper();
+    }
+
+    private ExamSection examSection = new ExamSection();
+
+    public List<Module> getModules() {
+        return modules;
+    }
+
+    public void setModules(List<Module> modules) {
+        this.modules = modules;
+    }
+
+    public ExamSection getExamSection() {
+        return examSection;
+    }
+
+    public void setExamSection(ExamSection examSection) {
+        this.examSection = examSection;
+    }
 
     private Date startDate;
 
@@ -111,50 +174,70 @@ public class ExamPaperController implements Serializable {
         return pagination;
     }
 
-    public String prepareList() {
-        recreateModel();
-        return "List";
-    }
-
-    public String prepareView() {
-        current = (ExamPaper) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "View";
-    }
-
-    public void prepareCreate() {
-        current = new ExamPaper();
-        selectedItemIndex = -1;
-    }
-
+//    public String prepareList() {
+//        recreateModel();
+//        return "List";
+//    }
+//    public String prepareView() {
+//        current = (ExamPaper) getItems().getRowData();
+//        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+//        return "View";
+//    }
+//    public void prepareCreate() {
+//        current = new ExamPaper();
+//        selectedItemIndex = -1;
+//    }
     public void create() {
         try {
-            current.setStartDate(toSQLDate(startDate));
 
-            Map<String, String> errors = examPaperService.validateExamPaper(current);
-            FacesContext context = FacesContext.getCurrentInstance();
-            if (!errors.isEmpty()) {
+            if (isInCreateMode) {
+                current.setStartDate(toSQLDate(startDate));
 
-                for (String key : errors.keySet()) {
-                    FacesMessage error = new FacesMessage(errors.get(key));
-                    context.addMessage(key, error);
+                Map<String, String> errors = examPaperService.validateExamPaper(current);
+                FacesContext context = FacesContext.getCurrentInstance();
+                if (!errors.isEmpty()) {
+
+                    for (String key : errors.keySet()) {
+                        FacesMessage error = new FacesMessage(errors.get(key));
+                        context.addMessage(key, error);
+                    }
+                    return;
                 }
-                return;
+
+                current = examPaperFacade.createExamPaper(current);
+                recreateModel();
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/examPaper").getString("ExamPaperCreated"));
+                current = new ExamPaper();
+            } else {
+                Map<String, String> errors = examPaperService.validateExamPaper(current);
+                FacesContext context = FacesContext.getCurrentInstance();
+                if (!errors.isEmpty()) {
+
+                    for (String key : errors.keySet()) {
+                        FacesMessage error = new FacesMessage(errors.get(key));
+                        context.addMessage(key, error);
+                    }
+                    return;
+                }
+
+                current = examPaperFacade.modifyExamPaper(current);
+                recreateModel();
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/examPaper").getString("ExamPaperCreated"));
+                current = new ExamPaper();
             }
-            getFacade().create(current);
-            recreateModel();
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/examPaper").getString("ExamPaperCreated"));
-            prepareCreate();
+
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/examPaper").getString("PersistenceErrorOccured"));
             return;
         }
     }
 
-    public String prepareEdit() {
+    public void prepareEdit() {
         current = (ExamPaper) getItems().getRowData();
+        current = examPaperFacade.retrieveSectionsAndQuestions(current);
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "Edit";
+        setIsInCreateMode(false);
+
     }
 
     public String update() {
@@ -168,13 +251,13 @@ public class ExamPaperController implements Serializable {
         }
     }
 
-    public String destroy() {
+    public void destroy() {
         current = (ExamPaper) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
         recreateModel();
-        return "List";
+
     }
 
     public String destroyAndView() {
@@ -192,7 +275,7 @@ public class ExamPaperController implements Serializable {
 
     private void performDestroy() {
         try {
-            getFacade().remove(current);
+            getFacade().deleteExamPaper(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/examPaper").getString("ExamPaperDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/examPaper").getString("PersistenceErrorOccured"));
@@ -294,8 +377,103 @@ public class ExamPaperController implements Serializable {
     }
 
     public void setExamPaperToCreate() {
-        prepareCreate();
+        current = new ExamPaper();
+
         setIsInCreateMode(true);
+    }
+
+    public void addSection() {
+        if (examSection.getSectionType() == SectionType.Automatic) {
+            List<Question> questions = questionFacade.retrieveQuestions(current.getModule(), examSection.getQuestions(), examSection.getSubjectTags(), examSection.getTotalMarks());
+            examSection.setQuestions(questions);
+            
+
+        } else {
+
+        }
+        getSelected().getSections().add(examSection);
+        resetExamSection();
+        questions = retrieveQuestions();
+        for (ExamSection es : current.getSections()) {
+            questions.removeAll(es.getQuestions());
+        }
+
+    }
+
+    public void addQuestion(ExamSection examSection, List<Question> questionsSelected) {
+        
+        
+        for (Question q : questionsSelected) {
+            if( examSection.getQuestions().contains(q))
+            questions.remove(q);
+            else
+            {
+                 questions.remove(q);
+                examSection.getQuestions().add(q);
+            }
+        }
+        
+        
+    }
+
+    public List<Question> retrieveQuestions() {
+
+        if (current.getModule() == null) {
+            resetExamPaper();
+        }
+        questions = questionFacade.retrieveQuestions(current.getModule(), examSection.getQuestions(), examSection.getSubjectTags(), examSection.getTotalMarks());
+
+        for (ExamSection es : current.getSections()) {
+            questions.removeAll(es.getQuestions());
+        }
+        return questions;
+    }
+
+    public SectionType[] getSectionTypes() {
+        return SectionType.values();
+    }
+
+    public void removeQuestionFromSection(ExamSection examSection, Question question) {
+        questions.add(question);
+        examSection.getQuestions().remove(question);
+    }
+
+    public void resetExamPaper() {
+        current = new ExamPaper();
+        resetExamSection();
+        current.getSections().add(examSection);
+        questions = retrieveQuestions();
+        for (ExamSection es : current.getSections()) {
+            questions.removeAll(es.getQuestions());
+        }
+
+    }
+
+    public void resetExamSection() {
+        examSection = new ExamSection();
+        retrieveModules();
+        if (modules != null && modules.size() > 0) {
+            // moduleSelected = modules.get(0);
+            current.setModule(modules.get(0));
+
+        }
+        retrieveSubjectTags();
+        //questions=retrieveQuestions();
+    }
+
+    public void retrieveModules() {
+        String lecturerID = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
+
+        modules = moduleFacade.retireveAllModules(lecturerID);
+    }
+
+    public List<SubjectTag> retrieveSubjectTags() {
+        List<SubjectTag> subjectTags = subjectTagFacade.retireveAllSubjectTags();
+        if (subjectTags != null && subjectTags.size() > 0) {
+            //subjectTagsSelected.add(subjectTags.get(0));
+            examSection.getSubjectTags().add(subjectTags.get(0));
+        }
+        return subjectTags;
     }
 
 }

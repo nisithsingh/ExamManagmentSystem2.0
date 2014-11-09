@@ -32,19 +32,18 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Question.findByQuestiontype", query = "SELECT q FROM Question q WHERE q.questionType = :questionType"),
     @NamedQuery(name = "Question.findByVersion", query = "SELECT q FROM Question q WHERE q.version = :version"),
     @NamedQuery(name = "Question.findByDepreciated", query = "SELECT q FROM Question q WHERE q.depreciated = :depreciated"),
-@NamedQuery(name = "Question.findByDepreciatedAndModule", query = "SELECT q FROM Question q WHERE q.depreciated = :depreciated and q.module=:module")})
-public class Question extends AbstractEntity implements Serializable  {
-  
-    
-    
-    private Integer version=0;
+    @NamedQuery(name = "Question.findByDepreciatedAndModule", query = "SELECT q FROM Question q WHERE q.depreciated = :depreciated and q.module=:module"),
+    @NamedQuery(name = "Question.findByDepreciatedAndModuleAndSubjectTags", query = "SELECT q FROM Question q  where q.depreciated = :depreciated and q.module=:module and q.subjectTags IN :subjectTags")})
+public class Question extends AbstractEntity implements Serializable {
+
+    private Integer version = 0;
     private Date createdOn;
     @ManyToOne
     private Lecturer createdBy;
     private Integer mark;
     private String questionText;
-    
-    @OneToOne(cascade=CascadeType.ALL)
+
+    @OneToOne(cascade = CascadeType.ALL)
     private Question previousQuestion;
 
     public Question getPreviousQuestion() {
@@ -54,28 +53,26 @@ public class Question extends AbstractEntity implements Serializable  {
     public void setPreviousQuestion(Question previousQuestion) {
         this.previousQuestion = previousQuestion;
     }
-    
-    
-    
+
     @ManyToOne
     private Module module;
-    
+
     @Enumerated(EnumType.ORDINAL)
-    private QuestionType questionType=QuestionType.MCQ_OneCorrect;
-    
+    private QuestionType questionType = QuestionType.MCQ_OneCorrect;
+
     @ManyToMany
-    private List<SubjectTag> subjectTags=new ArrayList<SubjectTag>();
-    
-    @ManyToMany
+    private List<SubjectTag> subjectTags = new ArrayList<SubjectTag>();
+
+    @ManyToMany(mappedBy = "questions")
     private List<ExamSection> examSections;
-    
+
     @OneToMany(mappedBy = "question")
-    private List<QuestionOption> questionOptions=new ArrayList<QuestionOption>();
-    
+    private List<QuestionOption> questionOptions = new ArrayList<QuestionOption>();
+
     @OneToMany(mappedBy = "question")
     private List<StudentAnswer> studentAnswers;
-    
-    private Integer depreciated=0;
+
+    private Integer depreciated = 0;
 
     public Integer getDepreciated() {
         return depreciated;
@@ -93,8 +90,6 @@ public class Question extends AbstractEntity implements Serializable  {
         this.module = module;
     }
 
-    
-    
     public List<StudentAnswer> getStudentAnswers() {
         return studentAnswers;
     }
@@ -103,8 +98,6 @@ public class Question extends AbstractEntity implements Serializable  {
         this.studentAnswers = studentAnswers;
     }
 
-    
-    
     public List<QuestionOption> getQuestionOptions() {
         return questionOptions;
     }
@@ -113,8 +106,6 @@ public class Question extends AbstractEntity implements Serializable  {
         this.questionOptions = questionOptions;
     }
 
-    
-    
     public List<ExamSection> getExamSections() {
         return examSections;
     }
@@ -122,7 +113,7 @@ public class Question extends AbstractEntity implements Serializable  {
     public void setExamSections(List<ExamSection> examSections) {
         this.examSections = examSections;
     }
-    
+
     public List<SubjectTag> getSubjectTags() {
         return subjectTags;
     }
@@ -130,8 +121,6 @@ public class Question extends AbstractEntity implements Serializable  {
     public void setSubjectTags(List<SubjectTag> subjectTags) {
         this.subjectTags = subjectTags;
     }
-    
-    
 
     public Integer getVersion() {
         return version;
@@ -180,11 +169,7 @@ public class Question extends AbstractEntity implements Serializable  {
     public void setQuestionType(QuestionType questionType) {
         this.questionType = questionType;
     }
-    
-    
-    
-    
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -209,5 +194,5 @@ public class Question extends AbstractEntity implements Serializable  {
     public String toString() {
         return "nus.iss.ems.entities.Question[ id=" + getId() + " ]";
     }
-    
+
 }

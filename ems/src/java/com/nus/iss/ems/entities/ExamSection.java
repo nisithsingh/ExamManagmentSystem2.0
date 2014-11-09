@@ -7,8 +7,11 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import com.nus.iss.ems.enums.SectionType;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 
 /**
  *
@@ -18,17 +21,43 @@ import javax.persistence.ManyToMany;
 public class ExamSection extends AbstractEntity implements Serializable  {
     
     private String sectionName;
-    private String totalMarks;
+    private Integer totalMarks=0;
+    
+    @Transient
+    private List<Question> questionSelected;
     
     @Enumerated(EnumType.ORDINAL)
     private SectionType sectionType;
     
+    @ManyToMany
+    private List<SubjectTag> subjectTags=new ArrayList<SubjectTag>();
+    
     @ManyToOne
     private ExamPaper examPaper;
     
-    @ManyToMany(mappedBy = "examSections")
-    private List<Question> questions;
+    @ManyToMany
+    private List<Question> questions=new ArrayList<Question>();
 
+    public List<Question> getQuestionSelected() {
+        return questionSelected;
+    }
+
+    public void setQuestionSelected(List<Question> questionSelected) {
+        this.questionSelected = questionSelected;
+    }
+
+    
+    
+    public List<SubjectTag> getSubjectTags() {
+        return subjectTags;
+    }
+
+    public void setSubjectTags(List<SubjectTag> subjectTags) {
+        this.subjectTags = subjectTags;
+    }
+
+    
+    
     public List<Question> getQuestions() {
         return questions;
     }
@@ -53,11 +82,11 @@ public class ExamSection extends AbstractEntity implements Serializable  {
         this.sectionName = sectionName;
     }
 
-    public String getTotalMarks() {
+    public Integer getTotalMarks() {
         return totalMarks;
     }
 
-    public void setTotalMarks(String totalMarks) {
+    public void setTotalMarks(Integer totalMarks) {
         this.totalMarks = totalMarks;
     }
 
@@ -92,7 +121,7 @@ public class ExamSection extends AbstractEntity implements Serializable  {
 
     @Override
     public String toString() {
-        return "nus.iss.ems.entities.Section[ id=" + getId() + " ]";
+        return getSectionName()+ ", Total Marks:" + getTotalMarks() ;
     }
     
 }
