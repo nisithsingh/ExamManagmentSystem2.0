@@ -29,15 +29,42 @@ public class ExamPaperController implements Serializable {
 
     @Inject
     ExamPaperService examPaperService;
-    
+
     private Date startDate;
-    
+
     private ExamPaper current;
     private DataModel items = null;
     @EJB
     private ExamPaperFacade ejbFacade;
     private PaginationHelper pagination;
+
+    private boolean isInCreateMode = true;
+
+    private String dailogTitle = "Create Question";
+
     private int selectedItemIndex;
+
+    public String getDailogTitle() {
+        return dailogTitle;
+    }
+
+    public void setDailogTitle(String dailogTitle) {
+        this.dailogTitle = dailogTitle;
+    }
+
+    public boolean isIsInCreateMode() {
+
+        return isInCreateMode;
+    }
+
+    public void setIsInCreateMode(boolean isInCreateMode) {
+        if (isInCreateMode) {
+            setDailogTitle("Create Exam Paper");
+        } else {
+            setDailogTitle("Modify Exam Paper");
+        }
+        this.isInCreateMode = isInCreateMode;
+    }
 
     public ExamPaperController() {
     }
@@ -50,11 +77,10 @@ public class ExamPaperController implements Serializable {
         this.startDate = startDate;
     }
 
-    public java.sql.Date toSQLDate(Date date)
-    {
+    public java.sql.Date toSQLDate(Date date) {
         return new java.sql.Date(date.getTime());
     }
-    
+
     public ExamPaper getSelected() {
         if (current == null) {
             current = new ExamPaper();
@@ -96,16 +122,15 @@ public class ExamPaperController implements Serializable {
         return "View";
     }
 
-    public String prepareCreate() {
+    public void prepareCreate() {
         current = new ExamPaper();
         selectedItemIndex = -1;
-        return "Create";
     }
 
     public void create() {
         try {
             current.setStartDate(toSQLDate(startDate));
-        
+
             Map<String, String> errors = examPaperService.validateExamPaper(current);
             FacesContext context = FacesContext.getCurrentInstance();
             if (!errors.isEmpty()) {
@@ -267,6 +292,10 @@ public class ExamPaperController implements Serializable {
         }
 
     }
-    
-    
+
+    public void setExamPaperToCreate() {
+        prepareCreate();
+        setIsInCreateMode(true);
+    }
+
 }

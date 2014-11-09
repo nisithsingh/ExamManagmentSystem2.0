@@ -19,27 +19,37 @@
                         <p:messages />
                     </h:panelGroup>
 
-                    <p:panelGrid columns="2">
-                        <p:outputLabel value="#{examPaper.CreateExamPaperLabel_name}" for="name" />
-                        <p:inputText id="name" value="#{examPaperController.selected.name}" title="#{examPaper.CreateExamPaperTitle_name}" required="true" requiredMessage="Name  is Required"/>
-                        <p:outputLabel value="#{examPaper.CreateExamPaperLabel_startDate}" for="startDate" />
-
-                        <p:calendar id="startDate" value="#{examPaperController.startDate}" required="true" requiredMessage="start date is required" pattern="MM/dd/yyyy HH:mm:ss" />
+                    <p:commandButton value="Create Exam Paper"  actionListener="#{examPaperController.setExamPaperToCreate()}" process="@this" oncomplete="PF('examPaperDailog').show();" update="@form"/> 
 
 
-                        <p:outputLabel value="#{examPaper.CreateExamPaperLabel_duration}" for="duration" />
-                        <h:panelGroup  style="margin-bottom: 10px">
-                            <p:slider for="duration" minValue="30" maxValue="180"/>
-                            <p:inputText id="duration" value="#{examPaperController.selected.duration}" title="#{examPaper.CreateExamPaperTitle_duration}" required="true" requiredMessage="duration is required"/>
-                        </h:panelGroup>
-                        <p:outputLabel value="#{examPaper.CreateExamPaperLabel_module}" for="module" />
-                        <p:selectOneMenu id="module" value="#{examPaperController.selected.module}" >
-                            <f:selectItems value="#{moduleController.itemsAvailableSelectOne}"/>
-                        </p:selectOneMenu>
+                    <p:dialog id="examPaperDailog" header="#{examPaperController.dailogTitle}" widgetVar="examPaperDailog" minHeight="40" height="500" width="500">
 
-                    </p:panelGrid>
-                    <br />
-                    <p:commandButton action="#{examPaperController.create()}" value="#{examPaper.CreateExamPaperSaveLink}" process="@form" update="examForm,examPaperDataTable"/>
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="#{examPaper.CreateExamPaperLabel_name}" for="name" />
+                            <p:inputText id="name" value="#{examPaperController.selected.name}" title="#{examPaper.CreateExamPaperTitle_name}" required="true" requiredMessage="Name  is Required"/>
+                            <p:outputLabel value="#{examPaper.CreateExamPaperLabel_startDate}" for="startDate" />
+
+                            <p:calendar id="startDate" value="#{examPaperController.startDate}" required="true" requiredMessage="start date is required" pattern="MM/dd/yyyy HH:mm:ss" />
+
+
+                            <p:outputLabel value="#{examPaper.CreateExamPaperLabel_duration}" for="duration" />
+                            <h:panelGroup  style="margin-bottom: 10px">
+                                <p:slider for="duration" minValue="30" maxValue="180"/>
+                                <p:inputText id="duration" value="#{examPaperController.selected.duration}" title="#{examPaper.CreateExamPaperTitle_duration}" required="true" requiredMessage="duration is required"/>
+                            </h:panelGroup>
+                            <p:outputLabel value="#{examPaper.CreateExamPaperLabel_module}" for="module" />
+                            <p:selectOneMenu id="module" value="#{examPaperController.selected.module}" >
+                                <f:selectItems value="#{moduleController.itemsAvailableSelectOne}"/>
+                            </p:selectOneMenu>
+                            <p:commandButton action="#{examPaperController.create()}" value="#{examPaper.CreateExamPaperSaveLink}" process="@form" update="examForm,examPaperDataTable,examPaperDailog"/>
+
+
+                        </p:panelGrid>
+                        <br />
+
+
+                    </p:dialog>
+
 
                     <p:dataTable id="examPaperDataTable" value="#{examPaperController.items}" var="item"  style="border:solid 1px">
 
