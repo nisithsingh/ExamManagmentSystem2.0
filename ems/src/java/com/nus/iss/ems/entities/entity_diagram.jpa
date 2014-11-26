@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jpa:entity-mappings status="GENERATED" id="_14170078177341" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <jpa:mapped-superclass class="AbstractEntity" compositePrimaryKeyType="NONE" visibile="true" minimized="false" id="_14170078178934">
+        <jpa:attributes>
+            <jpa:id name="id" attribute-type="java.lang.Long" visibile="true" id="_14170078178995">
+                <jpa:generated-value strategy="IDENTITY"/>
+            </jpa:id>
+        </jpa:attributes>
+    </jpa:mapped-superclass>
+    <jpa:entity class="Admin" compositePrimaryKeyType="NONE" superclass="AbstractEntity" superclassId="_14170078178934" visibile="true" minimized="false" id="_14170078179036">
+        <annotation>@javax.xml.bind.annotation.XmlRootElement</annotation>
+        <jpa:named-query name="Admin.findAll">
+            <jpa:query>SELECT a FROM Admin a</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Admin.findById">
+            <jpa:query>SELECT a FROM Admin a WHERE a.id = :id</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Admin.findByName">
+            <jpa:query>SELECT a FROM Admin a WHERE a.name = :name</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Admin.findByPassword">
+            <jpa:query>SELECT a FROM Admin a WHERE a.password = :password</jpa:query>
+        </jpa:named-query>
+        <jpa:attributes>
+            <jpa:basic name="name" attribute-type="java.lang.String" visibile="true" id="_14170078179067"/>
+            <jpa:basic name="password" attribute-type="java.lang.String" visibile="true" id="_14170078179078"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="ExamPaper" compositePrimaryKeyType="NONE" superclass="AbstractEntity" superclassId="_14170078178934" visibile="true" minimized="false" id="_14170078179969">
+        <jpa:named-query name="ExamPaper.getProgressedPaper">
+            <jpa:query>SELECT e FROM ExamPaper e where e.startDate = CURRENT_DATE </jpa:query>
+        </jpa:named-query>
+        <jpa:attributes>
+            <jpa:basic name="name" attribute-type="java.lang.String" visibile="true" id="_141700781799610"/>
+            <jpa:basic name="createDate" attribute-type="java.sql.Date" visibile="true" id="_141700781799611"/>
+            <jpa:basic name="startDate" attribute-type="java.sql.Date" visibile="true" id="_141700781799612"/>
+            <jpa:basic name="duration" attribute-type="java.lang.Integer" visibile="true" id="_141700781799613"/>
+            <jpa:many-to-one name="module" target-entity="Module" primaryKey="false" connected-entity-id="_141700781837735" connected-attribute-id="_141700781837837" visibile="true" id="_141700781801614"/>
+            <jpa:one-to-many name="sections" target-entity="ExamSection" mapped-by="examPaper" collection-type="java.util.List" connected-entity-id="_141700781807717" connected-attribute-id="_141700781821721" visibile="true" id="_141700781801915">
+                <jpa:cascade>
+                    <jpa:cascade-merge/>
+                </jpa:cascade>
+            </jpa:one-to-many>
+            <jpa:one-to-many name="examSession" target-entity="ExamSession" mapped-by="examPaper" collection-type="java.util.List" connected-entity-id="_141700781826625" connected-attribute-id="_141700781826827" visibile="true" id="_141700781802016">
+                <jpa:cascade>
+                    <jpa:cascade-all/>
+                </jpa:cascade>
+            </jpa:one-to-many>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="ExamSection" compositePrimaryKeyType="NONE" superclass="AbstractEntity" superclassId="_14170078178934" visibile="true" minimized="false" id="_141700781807717">
+        <jpa:attributes>
+            <jpa:basic name="sectionName" attribute-type="java.lang.String" visibile="true" id="_141700781821722"/>
+            <jpa:basic name="totalMarks" attribute-type="java.lang.Integer" visibile="true" id="_141700781821723"/>
+            <jpa:basic name="sectionType" attribute-type="com.nus.iss.ems.enums.SectionType" visibile="true" id="_141700781821724">
+                <jpa:enumerated>ORDINAL</jpa:enumerated>
+            </jpa:basic>
+            <jpa:many-to-one name="examPaper" target-entity="ExamPaper" primaryKey="false" connected-entity-id="_14170078179969" connected-attribute-id="_141700781801915" visibile="true" id="_141700781821721"/>
+            <jpa:many-to-many name="subjectTags" target-entity="SubjectTag" collection-type="java.util.List" connected-entity-id="_141700781858569" connected-attribute-id="_141700781858570" visibile="true" id="_141700781821719"/>
+            <jpa:many-to-many name="questions" target-entity="Question" collection-type="java.util.List" connected-entity-id="_141700781843042" connected-attribute-id="_141700781843248" visibile="true" id="_141700781821720"/>
+            <jpa:transient name="questionSelected" attribute-type="java.util.List&lt;com.nus.iss.ems.entities.Question&gt;" visibile="true" id="_141700781807818"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="ExamSession" compositePrimaryKeyType="NONE" superclass="AbstractEntity" superclassId="_14170078178934" visibile="true" minimized="false" id="_141700781826625">
+        <jpa:attributes>
+            <jpa:basic name="sessionId" attribute-type="java.lang.String" visibile="true" id="_141700781826726">
+                <jpa:column unique="true"/>
+            </jpa:basic>
+            <jpa:many-to-one name="examPaper" target-entity="ExamPaper" primaryKey="false" connected-entity-id="_14170078179969" connected-attribute-id="_141700781802016" visibile="true" id="_141700781826827"/>
+            <jpa:many-to-one name="student" target-entity="Student" primaryKey="false" connected-entity-id="_141700781850959" connected-attribute-id="_141700781850961" visibile="true" id="_141700781826828"/>
+            <jpa:one-to-many name="studentAnswers" target-entity="StudentAnswer" mapped-by="examSession" collection-type="java.util.List" connected-entity-id="_141700781854664" connected-attribute-id="_141700781854668" visibile="true" id="_141700781826829"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="Lecturer" compositePrimaryKeyType="NONE" superclass="AbstractEntity" superclassId="_14170078178934" visibile="true" minimized="false" id="_141700781831930">
+        <annotation>@javax.xml.bind.annotation.XmlRootElement</annotation>
+        <jpa:named-query name="Lecturer.findAll">
+            <jpa:query>SELECT l FROM Lecturer l</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Lecturer.findById">
+            <jpa:query>SELECT l FROM Lecturer l WHERE l.id = :id</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Lecturer.findByLecturerId">
+            <jpa:query>SELECT l FROM Lecturer l WHERE l.lecturerId = :lecturerId</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Lecturer.findByLecturerName">
+            <jpa:query>SELECT l FROM Lecturer l WHERE l.lecturerName = :lecturerName</jpa:query>
+        </jpa:named-query>
+        <jpa:attributes>
+            <jpa:basic name="lecturerId" attribute-type="java.lang.String" visibile="true" id="_141700781832032"/>
+            <jpa:basic name="lecturerName" attribute-type="java.lang.String" visibile="true" id="_141700781832033"/>
+            <jpa:one-to-many name="questions" target-entity="Question" mapped-by="createdBy" collection-type="java.util.List" connected-entity-id="_141700781843042" connected-attribute-id="_141700781843252" visibile="true" id="_141700781832031"/>
+            <jpa:many-to-many name="modules" target-entity="Module" collection-type="java.util.List" connected-entity-id="_141700781837735" connected-attribute-id="_141700781837838" visibile="true" id="_141700781832034"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="Module" compositePrimaryKeyType="NONE" superclass="AbstractEntity" superclassId="_14170078178934" visibile="true" minimized="false" id="_141700781837735">
+        <annotation>@javax.xml.bind.annotation.XmlRootElement</annotation>
+        <jpa:named-query name="Module.findAll">
+            <jpa:query>SELECT m FROM Module m</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Module.findById">
+            <jpa:query>SELECT m FROM Module m WHERE m.id = :id</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Module.findByModuleCode">
+            <jpa:query>SELECT m FROM Module m WHERE m.moduleCode = :moduleCode</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Module.findByModuleName">
+            <jpa:query>SELECT m FROM Module m WHERE m.moduleName = :moduleName</jpa:query>
+        </jpa:named-query>
+        <jpa:attributes>
+            <jpa:basic name="moduleCode" attribute-type="java.lang.String" visibile="true" id="_141700781837840">
+                <jpa:column unique="true"/>
+            </jpa:basic>
+            <jpa:basic name="moduleName" attribute-type="java.lang.String" visibile="true" id="_141700781837841"/>
+            <jpa:one-to-many name="questions" target-entity="Question" mapped-by="module" collection-type="java.util.List" connected-entity-id="_141700781843042" connected-attribute-id="_141700781843145" visibile="true" id="_141700781837736"/>
+            <jpa:one-to-many name="examPapers" target-entity="ExamPaper" mapped-by="module" collection-type="java.util.List" connected-entity-id="_14170078179969" connected-attribute-id="_141700781801614" visibile="true" id="_141700781837837"/>
+            <jpa:many-to-many name="lecturers" target-entity="Lecturer" mapped-by="modules" collection-type="java.util.List" connected-entity-id="_141700781831930" connected-attribute-id="_141700781832034" visibile="true" id="_141700781837838"/>
+            <jpa:many-to-many name="students" target-entity="Student" mapped-by="modules" collection-type="java.util.List" connected-entity-id="_141700781850959" connected-attribute-id="_141700781850960" visibile="true" id="_141700781837839"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="Question" compositePrimaryKeyType="NONE" superclass="AbstractEntity" superclassId="_14170078178934" visibile="true" minimized="false" id="_141700781843042">
+        <annotation>@javax.xml.bind.annotation.XmlRootElement</annotation>
+        <jpa:named-query name="Question.findAll">
+            <jpa:query>SELECT q FROM Question q</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Question.findById">
+            <jpa:query>SELECT q FROM Question q WHERE q.id = :id</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Question.findByCreatedOn">
+            <jpa:query>SELECT q FROM Question q WHERE q.createdOn = :createdOn</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Question.findByMark">
+            <jpa:query>SELECT q FROM Question q WHERE q.mark = :mark</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Question.findByQuestionText">
+            <jpa:query>SELECT q FROM Question q WHERE q.questionText = :questionText</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Question.findByQuestiontype">
+            <jpa:query>SELECT q FROM Question q WHERE q.questionType = :questionType</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Question.findByVersion">
+            <jpa:query>SELECT q FROM Question q WHERE q.version = :version</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Question.findByDepreciated">
+            <jpa:query>SELECT q FROM Question q WHERE q.depreciated = :depreciated</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Question.findByDepreciatedAndModule">
+            <jpa:query>SELECT q FROM Question q WHERE q.depreciated = :depreciated and q.module=:module</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Question.findByDepreciatedAndModuleAndSubjectTags">
+            <jpa:query>SELECT q FROM Question q  where q.depreciated = :depreciated and q.module=:module and q.subjectTags IN :subjectTags</jpa:query>
+        </jpa:named-query>
+        <jpa:attributes>
+            <jpa:basic name="depreciated" attribute-type="java.lang.Integer" visibile="true" id="_141700781843144"/>
+            <jpa:basic name="version" attribute-type="java.lang.Integer" visibile="true" id="_141700781843250"/>
+            <jpa:basic name="createdOn" attribute-type="java.sql.Date" visibile="true" id="_141700781843251"/>
+            <jpa:basic name="mark" attribute-type="java.lang.Integer" visibile="true" id="_141700781843253"/>
+            <jpa:basic name="questionText" attribute-type="java.lang.String" visibile="true" id="_141700781843254"/>
+            <jpa:basic name="questionType" attribute-type="com.nus.iss.ems.enums.QuestionType" visibile="true" id="_141700781843255">
+                <jpa:enumerated>ORDINAL</jpa:enumerated>
+            </jpa:basic>
+            <jpa:many-to-one name="module" target-entity="Module" primaryKey="false" connected-entity-id="_141700781837735" connected-attribute-id="_141700781837736" visibile="true" id="_141700781843145"/>
+            <jpa:many-to-one name="createdBy" target-entity="Lecturer" primaryKey="false" connected-entity-id="_141700781831930" connected-attribute-id="_141700781832031" visibile="true" id="_141700781843252"/>
+            <jpa:one-to-many name="studentAnswers" target-entity="StudentAnswer" mapped-by="question" collection-type="java.util.List" connected-entity-id="_141700781854664" connected-attribute-id="_141700781854666" visibile="true" id="_141700781843146"/>
+            <jpa:one-to-many name="questionOptions" target-entity="QuestionOption" mapped-by="question" collection-type="java.util.List" connected-entity-id="_141700781847056" connected-attribute-id="_141700781847058" visibile="true" id="_141700781843147"/>
+            <jpa:one-to-one name="previousQuestion" target-entity="Question" connected-entity-id="_141700781843042" visibile="true" id="_141700781843143">
+                <jpa:cascade>
+                    <jpa:cascade-all/>
+                </jpa:cascade>
+            </jpa:one-to-one>
+            <jpa:many-to-many name="examSections" target-entity="ExamSection" mapped-by="questions" collection-type="java.util.List" connected-entity-id="_141700781807717" connected-attribute-id="_141700781821720" visibile="true" id="_141700781843248"/>
+            <jpa:many-to-many name="subjectTags" target-entity="SubjectTag" collection-type="java.util.List" connected-entity-id="_141700781858569" connected-attribute-id="_141700781858572" visibile="true" id="_141700781843249"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="QuestionOption" compositePrimaryKeyType="NONE" superclass="AbstractEntity" superclassId="_14170078178934" visibile="true" minimized="false" id="_141700781847056">
+        <jpa:attributes>
+            <jpa:many-to-one name="question" target-entity="Question" primaryKey="false" connected-entity-id="_141700781843042" connected-attribute-id="_141700781843147" visibile="true" id="_141700781847058"/>
+            <jpa:many-to-many name="studentAnswers" target-entity="StudentAnswer" collection-type="java.util.List" connected-entity-id="_141700781854664" connected-attribute-id="_141700781854667" visibile="true" id="_141700781847057"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="Student" compositePrimaryKeyType="NONE" superclass="AbstractEntity" superclassId="_14170078178934" visibile="true" minimized="false" id="_141700781850959">
+        <jpa:named-query name="Student.findAll">
+            <jpa:query>SELECT s FROM Student s</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Student.findById">
+            <jpa:query>SELECT s FROM Student s WHERE s.id = :id</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Student.findByStudentId">
+            <jpa:query>SELECT s FROM Student s WHERE s.studentId = :studentId</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="Student.findByStudentName">
+            <jpa:query>SELECT s FROM Student s WHERE s.studentName = :studentName</jpa:query>
+        </jpa:named-query>
+        <jpa:attributes>
+            <jpa:basic name="studentId" attribute-type="java.lang.String" visibile="true" id="_141700781850962">
+                <jpa:column unique="true"/>
+            </jpa:basic>
+            <jpa:basic name="studentName" attribute-type="java.lang.String" visibile="true" id="_141700781850963"/>
+            <jpa:one-to-many name="examSessions" target-entity="ExamSession" mapped-by="student" collection-type="java.util.List" connected-entity-id="_141700781826625" connected-attribute-id="_141700781826828" visibile="true" id="_141700781850961"/>
+            <jpa:many-to-many name="modules" target-entity="Module" collection-type="java.util.List" connected-entity-id="_141700781837735" connected-attribute-id="_141700781837839" visibile="true" id="_141700781850960"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="StudentAnswer" compositePrimaryKeyType="NONE" superclass="AbstractEntity" superclassId="_14170078178934" visibile="true" minimized="false" id="_141700781854664">
+        <jpa:attributes>
+            <jpa:basic name="answer" attribute-type="java.lang.String" visibile="true" id="_141700781854665"/>
+            <jpa:many-to-one name="question" target-entity="Question" primaryKey="false" connected-entity-id="_141700781843042" connected-attribute-id="_141700781843146" visibile="true" id="_141700781854666"/>
+            <jpa:many-to-one name="examSession" target-entity="ExamSession" primaryKey="false" connected-entity-id="_141700781826625" connected-attribute-id="_141700781826829" visibile="true" id="_141700781854668"/>
+            <jpa:many-to-many name="optionsSelected" target-entity="QuestionOption" mapped-by="studentAnswers" collection-type="java.util.List" connected-entity-id="_141700781847056" connected-attribute-id="_141700781847057" visibile="true" id="_141700781854667"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="SubjectTag" compositePrimaryKeyType="NONE" superclass="AbstractEntity" superclassId="_14170078178934" visibile="true" minimized="false" id="_141700781858569">
+        <jpa:named-query name="SubjectTag.findAll">
+            <jpa:query>SELECT s FROM SubjectTag s</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="SubjectTag.findById">
+            <jpa:query>SELECT s FROM SubjectTag s WHERE s.id = :id</jpa:query>
+        </jpa:named-query>
+        <jpa:named-query name="SubjectTag.findByTagName">
+            <jpa:query>SELECT s FROM SubjectTag s WHERE s.tagName = :tagName</jpa:query>
+        </jpa:named-query>
+        <jpa:attributes>
+            <jpa:basic name="tagName" attribute-type="java.lang.String" visibile="true" id="_141700781858571"/>
+            <jpa:many-to-many name="examSections" target-entity="ExamSection" mapped-by="subjectTags" collection-type="java.util.List" connected-entity-id="_141700781807717" connected-attribute-id="_141700781821719" visibile="true" id="_141700781858570"/>
+            <jpa:many-to-many name="questions" target-entity="Question" mapped-by="subjectTags" collection-type="java.util.List" connected-entity-id="_141700781843042" connected-attribute-id="_141700781843249" visibile="true" id="_141700781858572"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:diagram id="_14170078177372">
+        <plane elementRef="_14170078177341" id="_14170078177383_p"/>
+    </jpa:diagram>
+</jpa:entity-mappings>
