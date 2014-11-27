@@ -36,7 +36,7 @@ public class QuestionFacade extends AbstractFacade<Question>{
         return em;
     }
     
-     public QuestionFacade() {
+    public QuestionFacade() {
         super(Question.class);
     }
     

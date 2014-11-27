@@ -1,9 +1,8 @@
-package com.nus.iss.ems.temp;
+package com.nus.iss.ems.entities;
 
 import com.nus.iss.ems.ejb.ModuleFacade;
-import com.nus.iss.ems.entities.Module;
-import com.nus.iss.ems.temp.util.JsfUtil;
-import com.nus.iss.ems.temp.util.PaginationHelper;
+import com.nus.iss.ems.entities.util.JsfUtil;
+import com.nus.iss.ems.entities.util.PaginationHelper;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -31,7 +30,11 @@ public class ModuleController implements Serializable {
 
     public ModuleController() {
     }
-
+    
+    public int getSelectedItemIndex(){
+        return selectedItemIndex;
+    }
+    
     public Module getSelected() {
         if (current == null) {
             current = new Module();
@@ -66,7 +69,14 @@ public class ModuleController implements Serializable {
         recreateModel();
         return "List";
     }
-
+    
+    public String prepareExamView(){
+        current = (Module) getItems().getRowData();
+        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        //System.out.println("wooohooo:"+selectedItemIndex);
+        return "ExamFromModule?faces-redirect=true";
+    }
+    
     public String prepareView() {
         current = (Module) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
@@ -82,10 +92,10 @@ public class ModuleController implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/examPaper").getString("ModuleCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ModuleCreated"));
             return prepareCreate();
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/examPaper").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
         }
     }
@@ -99,10 +109,10 @@ public class ModuleController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/examPaper").getString("ModuleUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ModuleUpdated"));
             return "View";
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/examPaper").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
         }
     }
@@ -132,9 +142,9 @@ public class ModuleController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/examPaper").getString("ModuleDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ModuleDeleted"));
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/examPaper").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
     }
 
@@ -185,7 +195,7 @@ public class ModuleController implements Serializable {
     }
 
     public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(ejbFacade.findAll(), false);
+        return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
     public Module getModule(java.lang.Long id) {

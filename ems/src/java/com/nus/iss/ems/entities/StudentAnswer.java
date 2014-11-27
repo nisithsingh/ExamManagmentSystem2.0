@@ -2,6 +2,7 @@
 package com.nus.iss.ems.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -19,12 +20,44 @@ public class StudentAnswer extends AbstractEntity implements Serializable{
     @ManyToOne
     private Question question;
     
-    @ManyToMany(mappedBy = "studentAnswers")
+    @ManyToMany
     private List<QuestionOption> optionsSelected;
     
     @ManyToOne 
     private ExamSession examSession;
-
+    
+    public StudentAnswer(Question q,QuestionOption qp){
+        
+        this.question=q;
+        optionsSelected= new ArrayList<QuestionOption>();
+        if(optionsSelected!= null)
+            this.optionsSelected.add(qp);
+        else
+            System.out.println("List reference variable is null");
+        
+    }
+    
+    public StudentAnswer(Question q,List<QuestionOption> qp){
+        
+        this.question=q;
+        optionsSelected= new ArrayList<QuestionOption>();
+        if(optionsSelected!= null)
+            this.optionsSelected=qp;
+        else
+            System.out.println("List reference variable is null");
+        
+    }
+    
+    public StudentAnswer(Question q, String essayAns){
+        
+        this.question=q;
+        this.answer= essayAns;
+        
+    }
+    public StudentAnswer(){
+        
+    }
+    
     public String getAnswer() {
         return answer;
     }

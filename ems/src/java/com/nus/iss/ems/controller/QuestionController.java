@@ -7,6 +7,7 @@ package com.nus.iss.ems.controller;
 
 import com.nus.iss.ems.ejb.ModuleFacade;
 import com.nus.iss.ems.ejb.QuestionFacade;
+import com.nus.iss.ems.ejb.QuestionOptionFacade;
 import com.nus.iss.ems.ejb.SubjectTagFacade;
 import com.nus.iss.ems.entities.Module;
 import com.nus.iss.ems.entities.Question;
@@ -15,6 +16,7 @@ import com.nus.iss.ems.entities.SubjectTag;
 import com.nus.iss.ems.enums.QuestionType;
 import com.nus.iss.ems.service.QuestionService;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -42,7 +44,21 @@ public class QuestionController implements Serializable {
 
     @EJB
     private SubjectTagFacade subjectTagFacade;
+    
+    @EJB
+    private QuestionOptionFacade qOptionFacade;
+    
+    private QuestionOption qOption;
+    
+    
+    public QuestionOption getqOption() {
+        return qOption;
+    }
 
+    public void setqOption(QuestionOption qOption) {
+        this.qOption = qOption;
+    }
+    
     private List<Module> modules;
 
     private boolean isInCreateMode = true;
@@ -148,6 +164,12 @@ public class QuestionController implements Serializable {
         return subjectTags;
     }
 
+//    public List<QuestionOption> getQuestion(){
+//        
+//        List<QuestionOption> qOption = qOptionFacade.retrieveAll
+//        
+//    } 
+//    
     public QuestionType[] getQuestionTypes() {
         return QuestionType.values();
     }
@@ -232,6 +254,12 @@ public class QuestionController implements Serializable {
         return moduleFacade.findModule(id);
     }
 
+    public QuestionOption getQuestionOption(java.lang.Long id) {
+        return qOptionFacade.findQuestionOption(id);
+    }
+    
+    
+    
     public void depreciateQuestion(Question question) {
 
         boolean result = questionFacade.depreciateQuestion(question);

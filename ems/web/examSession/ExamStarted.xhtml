@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template.xhtml">
+        
+        <ui:define name="body">
+            
+                <h:form id="examForm">
+                    <div align="right"> <p:commandButton id="FinishButton" value="FinishButton" action="#{studentAnswersController.createStudentAnswers()}" /> </div> <br/><br/>
+                    <p:fieldset legend="Exam Info">
+                       
+                        <h:panelGrid columns="3" cellpadding="5">
+                            
+                            
+                            <p:outputLabel value="Section wise break up" />
+                            
+                            <ui:repeat var="o" value="#{examPaperView.examSections}" >
+                                <p:outputLabel value="Total Marks : #{o.totalMarks}" /><br/><br/>
+                                <p:commandButton  value="Start Section #{o.sectionName}" action="#{examPaperView.startSection(o)}" update=":#{p:component('questionField')}"></p:commandButton><br/><br/>
+                            </ui:repeat>
+
+                           
+                        </h:panelGrid>
+                        <div align="left"> <p:commandButton id="prevButton" value="Prev" action="#{examPaperView.prevSectionQuestion()}" rendered="#{examPaperView.prevVal}" update="examForm :sectionForm:questionField"/> </div>
+                        <div align="right"> <p:commandButton id="nextButton" value="Next" action="#{examPaperView.nextSectionQuestion()}" rendered="#{examPaperView.nextVal}" update="examForm :sectionForm:questionField"/> </div>
+                    </p:fieldset>
+                </h:form>
+                <h:form id="sectionForm">
+                    <p:fieldset legend="Section #{examPaperView.currSection}" id="questionField">
+
+                        <p:panel header="Question" style="margin-bottom:20px" rendered="#{examPaperView.curr_ESSAY ne null}">
+
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <p:outputLabel value="Question #{examPaperView.currCursor+1}:"/> 
+                                <p:outputLabel value="#{examPaperView.curr_ESSAY.questionText}"/> 
+                                <p:outputLabel value="Answer :"/> 
+                                <p:inputTextarea value="" cols="156" rows="3"/>                                
+
+                            </h:panelGrid>
+                        </p:panel>
+                        
+                        <p:panel header="Question " style="margin-bottom:20px" rendered="#{examPaperView.currMCQ_OneCorrectQsn ne null}">
+
+                            <p:panelGrid columns="1" id="MultipleChoiceQuestionFormOneCorrect"  >
+
+
+                                <p:outputLabel value="Question #{examPaperView.currCursor+1}: #{examPaperView.currMCQ_OneCorrectQsn.questionText}"/>
+                                
+                                <p:outputLabel value="Marks : #{examPaperView.currMCQ_OneCorrectQsn.mark}"/>
+                                
+                                <p:selectOneRadio value="#{examPaperView.currAnsQt}" id="qoption" layout="grid" columns="1">
+                                    <f:selectItems value="#{examPaperView.currMCQ_OneCorrectQsn.questionOptions}" var="c" itemLabel="#{c.value}" itemValue="#{c}"/>
+                                    <f:converter converterId="questionOptionConverter" />
+                                </p:selectOneRadio>
+                             
+                                <p:commandButton value="Submit" action="#{examPaperView.submitAnswer()}" process="@this,qoption" icon="ui-icon-check" ajax="false" />
+                                
+                                
+                                
+                            </p:panelGrid>
+
+
+                        </p:panel>
+                        
+                        <p:panel header="Question " style="margin-bottom:20px" rendered="#{examPaperView.currMCQ_MultipleCorrectQsn ne null}">
+
+                            <p:panelGrid columns="1" id="MultipleChoiceQuestionForm"  >
+
+
+                                <p:outputLabel value="Question #{examPaperView.currCursor+1}: #{examPaperView.currMCQ_MultipleCorrectQsn.questionText}"/>
+                                
+                                <p:outputLabel value="Marks : #{examPaperView.currMCQ_MultipleCorrectQsn.mark}"/>
+                                
+                             
+                                <p:selectManyCheckbox id="qoptiongrid" value="#{examPaperView.currAnsListQt}" layout="grid" columns="1">
+                                    <f:selectItems value="#{examPaperView.currMCQ_MultipleCorrectQsn.questionOptions}" var="c" itemLabel="#{c.value}" itemValue="#{c}" />
+                                    <f:converter converterId="questionOptionConverter" />
+                                </p:selectManyCheckbox>
+                                
+                                <p:commandButton value="Submit" action="#{examPaperView.submitAnswer()}" process="@this,qoptiongrid" icon="ui-icon-check" ajax="false" />
+                                                          
+
+                            </p:panelGrid>
+
+
+                        </p:panel>
+                        
+                    </p:fieldset>
+
+                </h:form>
+                <h:outputText value=""/>
+                <h:outputText value=""/>
+            </ui:define>
+
+    </ui:composition>   
+</html>
+

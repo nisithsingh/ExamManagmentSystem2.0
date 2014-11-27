@@ -10,12 +10,18 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 
 /**
  *
  * @author Milan
  */
 @Entity
+@NamedQueries(
+        {
+            //@NamedQuery(name="QuestionOptionList.findSelected",query="")
+        }
+)
 public class QuestionOption extends AbstractEntity implements Serializable{
    
     private String optionValue;
@@ -23,7 +29,7 @@ public class QuestionOption extends AbstractEntity implements Serializable{
     @ManyToOne
     private Question question;
     
-    @ManyToMany
+    @ManyToMany(mappedBy = "optionsSelected")
     private List<StudentAnswer> studentAnswers;
 
     public List<StudentAnswer> getStudentAnswers() {

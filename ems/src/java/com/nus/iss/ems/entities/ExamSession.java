@@ -4,6 +4,7 @@ package com.nus.iss.ems.entities;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -13,6 +14,7 @@ import javax.persistence.OneToMany;
  *
  * @author Milan
  */
+
 @Entity
 public class ExamSession extends AbstractEntity implements Serializable {
     
@@ -25,6 +27,7 @@ public class ExamSession extends AbstractEntity implements Serializable {
     @ManyToOne
     private Student student;
     
+    @Column(name = "STARTDATE")
     private Date startDate;
     
     @OneToMany(mappedBy = "examSession")

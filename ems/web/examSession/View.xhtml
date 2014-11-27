@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewExamSessionTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                
+            
+        <p:fieldset legend="Instructions to Examination Candidates" style="margin-bottom:20px">
+        <h:panelGrid columns="1" cellpadding="10">
+            
+            <h:head>A. Instructions to Examination Candidates</h:head>
+            <h:outputText
+                value="Please read these instructions carefully. 
+                A candidate who breaches any of the Examination Regulations 
+                will be liable to disciplinary action including (but not 
+                limited to) suspension or expulsion from the university." />
+            <h:outputText
+                value="1. Examinations will be conducted during the allocated 
+                times shown in the examination timetable." />
+            <h:outputText value="2.The examination hall will be open for admission 
+                          10 minutes before the time scheduled for the commencement
+                          of the examination. You are to find your allocated seat 
+                          but do not turn over the question paper until instructed 
+                          at the time of commencement of the examination." />
+            <h:outputText
+                value="3. You will not be admitted for the examination after one 
+                hour of the commencement of the examination." />
+            
+            <h:head>B. Personal Belongings</h:head>
+            
+            <h:outputText
+                value="All your personal belongings (such as bags, pouches, 
+                ear/headphones, laptops etc.) must be placed at the designated 
+                area outside the examination hall. Please do not bring any valuable
+                belongings except the essential materials required for the examinations. " />
+            <h:outputText
+                value="1. Any unauthorised materials, such as books, paper, documents,
+                pictures and electronic devices with communication and/or storage 
+                capabilities such as tablet PC, laptop, smart watch, portable audio/video/gaming 
+                devices etc. are not to be brought into the examination hall." />
+            <h:outputText
+                value="2. Handphones brought into the examination hall must be switched off at
+                all times. If your handphone is found to be switched on in the examination hall,
+                the handphone will be confiscated and retained for investigations of possible 
+                violation of regulations." />
+            
+            <p:commandButton action="ExamSessionDetail" value="Proceed" icon="ui-icon-check">
+                    
+            </p:commandButton>
+            
+            </h:panelGrid>
+        </p:fieldset>
+            
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

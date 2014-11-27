@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        
+        <ui:define name="body">
+            <h:form>
+                <h3 style="margin-top:0"> Choose Exam to take  </h3>
+                <p:accordionPanel value="#{userBean.student.modules.get(moduleController.selectedItemIndex).examPapers}" var="b">
+        <p:tab title="#{b.duration}">
+            <h:panelGrid columns="2" cellpadding="10">
+                <p:graphicImage library="images" name="pen_paper_icon.jpg" />
+                
+                <h:outputText
+                    value="#{b.duration}" />
+                <p:commandButton  action="#{examSessionController.prepareExam(b)}" value="#{bundle.ListExamSessionViewLink}" process="@this" ajax="false"/>
+                   
+                
+            </h:panelGrid>
+        </p:tab>
+        
+        </p:accordionPanel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

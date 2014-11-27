@@ -77,6 +77,8 @@ public class LoginBean implements Serializable {
             Student student=studentFacade.findStudent(request.getUserPrincipal().getName());
             userBean.setRole("student");
             userBean.setStudent(student);
+            System.out.println("Section Name:"+student.getModules().get(0).getExamPapers().get(0).getSections().get(0).getSectionName());
+            System.out.println("Section question size"+student.getModules().get(0).getExamPapers().get(0).getSections().get(0).getQuestions().size());
             return "/student/index?faces-redirect=true";
         } else if (request.isUserInRole("lecturer")) {
             Lecturer lecturer=lecturerFacade.findLecturer(request.getUserPrincipal().getName());
