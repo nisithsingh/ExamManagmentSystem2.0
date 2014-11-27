@@ -10,7 +10,7 @@
         <ui:define name="body">
             
                 <h:form id="examForm">
-                    <div align="right"> <p:commandButton id="FinishButton" value="FinishButton" action="#{studentAnswersController.createStudentAnswers()}" /> </div> <br/><br/>
+                    <div align="right"> <p:commandButton id="FinishButton" value="Finish" action="#{studentAnswersController.createStudentAnswers()}" /> </div> <br/><br/>
                     <p:fieldset legend="Exam Info">
                        
                         <h:panelGrid columns="3" cellpadding="5">
@@ -38,8 +38,9 @@
                                 <p:outputLabel value="Question #{examPaperView.currCursor+1}:"/> 
                                 <p:outputLabel value="#{examPaperView.curr_ESSAY.questionText}"/> 
                                 <p:outputLabel value="Answer :"/> 
-                                <p:inputTextarea value="" cols="156" rows="3"/>                                
-
+                                <p:inputTextarea value="#{examPaperView.currAnsEssay}" cols="156" rows="3"/>                                
+                                 
+                                <p:commandButton value="Submit" action="#{examPaperView.submitAnswer()}" process="@this,qoption" icon="ui-icon-check" ajax="false" />
                             </h:panelGrid>
                         </p:panel>
                         

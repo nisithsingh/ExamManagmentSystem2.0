@@ -30,9 +30,9 @@ public class ExamPaperService {
         if (examPaper.getDuration() == null || examPaper.getDuration() < 30) {
             errors.put("duration", "duration cannot be less than 30 mt");
         }
-        if (examPaper.getStartDate() == null || examPaper.getStartDate().before(new Date(System.currentTimeMillis()))) {
-            errors.put("startDate", "Start Date cannot be less or equal to today");
-        }
+//        if (examPaper.getStartDate() == null || examPaper.getStartDate().before(new Date(System.currentTimeMillis()))) {
+//            errors.put("startDate", "Start Date cannot be less or equal to today");
+//        }
         if (examPaper.getModule() == null) {
             errors.put("module", "Module is required");
         }

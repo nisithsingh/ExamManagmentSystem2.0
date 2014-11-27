@@ -12,7 +12,7 @@
             <h:form>
                 <h3 style="margin-top:0"> Choose Exam to take  </h3>
                 <p:accordionPanel value="#{userBean.student.modules.get(moduleController.selectedItemIndex).examPapers}" var="b">
-        <p:tab title="#{b.duration}">
+        <p:tab title="#{b.name}">
             <h:panelGrid columns="2" cellpadding="10">
                 <p:graphicImage library="images" name="pen_paper_icon.jpg" />
                 

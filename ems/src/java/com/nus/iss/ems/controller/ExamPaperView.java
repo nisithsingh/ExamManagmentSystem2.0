@@ -34,6 +34,15 @@ public class ExamPaperView implements Serializable{
     
     private int timeRemaining = 10;
     
+    private String essayAns;
+
+    public String getEssayAns() {
+        return essayAns;
+    }
+
+    public void setEssayAns(String essayAns) {
+        this.essayAns = essayAns;
+    }
     private ExamPaper ePaper;
     
     private List<ExamSection> examSections;

@@ -75,6 +75,11 @@ public class LecturerFacade1 {
             stmt.setString(1, id);
             stmt.setString(2, "password");
             int result = stmt.executeUpdate();
+            
+            stmt = connection.prepareStatement("insert into users_groups (groupid, userid) VALUES (?,?)");
+            stmt.setString(1, "lecturer");
+            stmt.setString(2, id);
+            result = stmt.executeUpdate();
             stmt.close();
 
         } catch (SQLException e) {

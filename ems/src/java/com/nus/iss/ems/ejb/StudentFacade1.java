@@ -61,6 +61,11 @@ public class StudentFacade1 {
             stmt.setString(1, id);
             stmt.setString(2, "password");
             int result = stmt.executeUpdate();
+            
+            stmt = connection.prepareStatement("insert into users_groups (groupid, userid) VALUES (?,?)");
+            stmt.setString(1, "student");
+            stmt.setString(2, id);
+            result = stmt.executeUpdate();
             stmt.close();
 //            if (result == 0) {
 //                return msg;
