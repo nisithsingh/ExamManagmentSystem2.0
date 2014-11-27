@@ -86,7 +86,11 @@ public class LecturerModuleController implements Serializable {
     }
 
     public String assign() {
-        lecturermodulefacade.updateStudentModules(lecturer, selectedModule);
+        lecturermodulefacade.updateLecturerModules(lecturer, selectedModule);
         return "upload";
+    }
+    
+    public Lecturer getLecturer(java.lang.Long id) {
+        return lecturerfacade1.findLecturer(id);
     }
 }

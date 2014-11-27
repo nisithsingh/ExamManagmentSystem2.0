@@ -32,7 +32,7 @@ public class LecturerModuleFacade {
         return lecturer.getModules();
     }
 
-    public void updateStudentModules(Lecturer lecturer, List<Module> modules) {
+    public void updateLecturerModules(Lecturer lecturer, List<Module> modules) {
         lecturer = em.find(Lecturer.class, lecturer.getId());
         lecturer.setModules(modules);
         em.persist(lecturer);

@@ -28,7 +28,7 @@ public class LecturerConverter implements Converter{
                 return null;
             }
             LecturerModuleController controller = (LecturerModuleController) context.getApplication().getELResolver().getValue(context.getELContext(), null, "lecturerModuleController");
-            return controller.getLecturer();
+            return controller.getLecturer(getKey(value));
     }
     
      java.lang.Long getKey(String value) {

@@ -95,4 +95,7 @@ public class LecturerFacade1 {
         }
         return "SUCCESS";
     }
+    public Lecturer findLecturer(Long id) {
+        return em.find(Lecturer.class, id);
+    }
 }
