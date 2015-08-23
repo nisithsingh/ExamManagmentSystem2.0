@@ -30,7 +30,7 @@
                     <p:selectOneMenu id="moduleDropDown" value="#{questionController.question.module}" style="width:150px" required="true" >
                         <f:selectItems value="#{questionController.modules}" var="module" itemValue="#{module}" 
                                        itemLabel="#{module.moduleName}"/>
-                        <f:converter converterId="questionOptionConverter" />
+                        <f:converter converterId="moduleConverter" />
                         <p:ajax update="questionDataTable" listener="#{questionController.retrieveQuestions()}"/>
                     </p:selectOneMenu>
                     <p:commandButton value="Create Question"  actionListener="#{questionController.setQuestionToCreate()}" process="@this" oncomplete="PF('createQuestionDialog').show();" update="@form"/> 

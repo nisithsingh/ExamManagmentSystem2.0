@@ -32,6 +32,7 @@ public class ModuleConverter implements Converter{
     }
     
      java.lang.Long getKey(String value) {
+            System.out.print("ModuleSelected:"+value);
             java.lang.Long key;
             key = Long.valueOf(value);
             return key;

@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 
 
 /**
@@ -136,6 +137,29 @@ public class ExamPaperView implements Serializable{
         studentAnswers = new ArrayList<StudentAnswer>();
         
     }
+    
+    public void init() {
+        
+        studentAnswers = new ArrayList<StudentAnswer>();
+        
+        System.out.println("ININT:" + ePaper.toString());
+               
+
+        for (ExamSection s : ePaper.getSections()) {
+            System.out.println(s.getQuestions().size());
+        }
+        
+        examSections=ePaper.getSections();
+
+    }
+    
+    public void endExam(){
+        
+        RequestContext.getCurrentInstance().execute("testDialog2.show()");
+        System.out.println("Exam end");
+        //return "thanks?faces-redirect=true";
+        
+    } 
     
     public void submitAnswer(){
         
@@ -295,20 +319,7 @@ public class ExamPaperView implements Serializable{
     }
     
   
-    public void init() {
-        
-        studentAnswers = new ArrayList<StudentAnswer>();
-        
-        System.out.println("ININT:" + ePaper.toString());
-               
-
-        for (ExamSection s : ePaper.getSections()) {
-            System.out.println(s.getQuestions().size());
-        }
-        
-        examSections=ePaper.getSections();
-
-    }
+    
     
     public String getTypeOfQuestion(Question question) {
 

@@ -1,0 +1,9 @@
+Following are the changes made after check out from GIT:
+
+1. In index.xhtml for 'select module' dropdown the converter has been 
+correctly changed to "moduleConverter"
+
+2. 'studentAnswers = new ArrayList<StudentAnswer>();' has been removed from method init()
+as it's already in method initList() in ExamPaperView.   
+
+

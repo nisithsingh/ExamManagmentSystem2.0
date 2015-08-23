@@ -4,15 +4,35 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
     <ui:composition template="/template.xhtml">
         
         <ui:define name="body">
+              
+                <p:dialog id="testDialog" widgetVar="testDialog2" header="My Test Dialog">
+                    <h:form>
+
+                        <h:outputText value="Time's up" />
+                        <p:commandButton value='Ok' action="#{studentAnswersController.createStudentAnswers()}" />
+
+                    </h:form>
+                </p:dialog>      
             
                 <h:form id="examForm">
                     <div align="right"> <p:commandButton id="FinishButton" value="Finish" action="#{studentAnswersController.createStudentAnswers()}" /> </div> <br/><br/>
+                    
                     <p:fieldset legend="Exam Info">
-                       
+                        
+                        <pe:timer  
+                                timeout="5"  
+                                singleRun="true"                              
+                                ontimercomplete="PF('testDialog2').show();"/> 
+
+                        <p:dialog id="myDialog" header="Time up" widgetVar="myDialog"  position="center center" >  
+                            <h:outputText value="Exam over" />  
+                        </p:dialog>
+                    
                         <h:panelGrid columns="3" cellpadding="5">
                             
                             
@@ -40,7 +60,7 @@
                                 <p:outputLabel value="Answer :"/> 
                                 <p:inputTextarea value="#{examPaperView.currAnsEssay}" cols="156" rows="3"/>                                
                                  
-                                <p:commandButton value="Submit" action="#{examPaperView.submitAnswer()}" process="@this,qoption" icon="ui-icon-check" ajax="false" />
+                                <p:commandButton id="ansButton" value="Submit" action="#{examPaperView.submitAnswer()}" process="@this,qoption" icon="ui-icon-check" ajax="false" />
                             </h:panelGrid>
                         </p:panel>
                         
